@@ -13,17 +13,17 @@ pprint(config)
 print("\n")
 
 curr_time = datetime.datetime.now()
-print("TIME: ", curr_time)
+print("Local time: ", curr_time)
 
-def print_coords(self):
-	print("Coordinates of " + str(self.name) + ": (", self.lat, ",", self.lon, ")")
-def print_alt(self):
-	print(str(self.name) + " alt: ", self.alt(self.lat, self.lon))
-def print_azimuth(self):
-	print(str(self.name) + " azimuth: ", self.azimuth(self.lat, self.lon))
+def print_coords(loc):
+	print("Coordinates of " + str(loc.name) + ": (", loc.lat, ",", loc.lon, ")")
+def print_alt(loc):
+	print(str(loc.name) + " alt: ", loc.alt(loc.lat, loc.lon))
+def print_azimuth(loc):
+	print(str(loc.name) + " azimuth: ", loc.azimuth(loc.lat, loc.lon))
 
 """A location has time-specific altitude, azimuth values (degrees) as per Pysolar"""
-class Location(object):
+class Location:
 	"""Returns a new Location object"""
 	def __init__(self, name, lat, lon):
 		self.name = name
@@ -79,32 +79,21 @@ def printLocationInfo(loc):
 
 
 #Example: JF1
-jf1 = Location("JF1", 45.541718, 122.960381)
+jf1 = Location("JF1", 45.541718, -122.960381)
 print("Example")
 printLocationInfo(jf1)
 calcActuatorHeight(jf1, 2.8)
 print()
 
 #From config.json
-print("Current location:")
+print("Current location via config.json:")
 myLoc = Location("inputLocation" , config["locationInfo"]["latitude"], config["locationInfo"]["longitude"])
 distActuatorToOrigin = config["distInfo"]["distActuatorToOrigin"]
 printLocationInfo(myLoc)
 calcActuatorHeight(myLoc, distActuatorToOrigin)
 
 
-
-# val = 90 - loc.alt(loc.lat, loc.lon)
-# num = tan(radians(val))
-# denom = distActuatorToOrigin
-# a = num / denom
-
-
-
-
-
 #Additional functions that would be cool:
 #write a function that gives # of hours of sunlight based upon coords/month/day
-
 
 
