@@ -1,7 +1,6 @@
 # Pulse width modification is used to move the actuator variably. 
 #Documentation:  http://iotdk.intel.com/docs/master/mraa/python/mraa.html#mraa.Pwm
 import mraa, time
-from tracking import effectiveActuatorHeight
 
 class Actuator:
 	#isPWM is true iff Pwm module is utilized	
