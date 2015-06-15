@@ -6,8 +6,8 @@
 	},
 
 	"distInfo" : {
-		"distActuatorToOrigin" : 2.8,
-		"distPanningActuatorToOrigin" : 2.8
+		"distActuatorToOrigin" : 4,
+		"distPanningActuatorToOrigin" : 4
 	}
 
 }

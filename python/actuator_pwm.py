@@ -11,12 +11,12 @@ import pwm_funcs as pwm
 maxActuatorHeight = 2
 myPercent = effectiveActuatorHeight1 / maxActuatorHeight
 a = pwm.Actuator(3, maxActuatorHeight, myPercent, 700, True)
-a.set(myPercent, 700)
+a.set(myPercent)
 
 
 #Actuator b is for panning the panel horizonally--according to the azimuth
 maxActuatorHeight = 2 #TODO: Confirm maxActuatorHeight is equivalent for both actuators and both will use mraa pwm
 myPercent = effectiveActuatorHeight2 / maxActuatorHeight
 b = pwm.Actuator(3, maxActuatorHeight, myPercent, 700, True)
-b.set(myPercent, 700)
+b.set(myPercent)
 
