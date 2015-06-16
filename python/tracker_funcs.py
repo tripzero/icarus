@@ -9,8 +9,6 @@ from math import tan, cos, radians
 #Initialize inputs
 with open('config.json') as dataFile:
 	config = json.load(dataFile)
-# print("config.json: ")
-# pprint(config)
 
 now = datetime.datetime.now()
 """A location has time-specific altitude, azimuth values (degrees) as per Pysolar. Using origin to actuator distances, the various effective actuator heights can be calculated."""
@@ -26,7 +24,7 @@ class Location:
 		original = time
 
 	def incrementTime(self, time):
-		self.time += datetime.timedelta(minutes = 60)
+		self.time += datetime.timedelta(minutes = 30)
 
 	def resetTime(self, time):
 		time = now
@@ -79,7 +77,6 @@ class Location:
 		print("Effective actuator2 height: ", x)
 		return x	
 
-
 	"""Print the actuator values at hourly increments starting at input time."""
 	def demoDay(self, lat, lon, time):
 			print()
@@ -87,7 +84,7 @@ class Location:
 				#print("Demo of ", self.name, " ", time, ":")
 				print()
 				print("lat,lon: (", lat, ", ", lon, ") \n")
-				for h in range(0, 12):
+				while True:
 					print(self.time)
 					print_alt(self)
 					self.calcTiltingHeight(self.o_a_dist1)
@@ -95,6 +92,7 @@ class Location:
 					#print()
 				self.resetTime(now)
 			except ValueError:
+				print("ValueError: altitude is below zero. Loop exited.")
 				self.resetTime(now)
 				pass
 
