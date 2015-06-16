@@ -4,9 +4,6 @@ import mraa, time
 from tracking import effectiveActuatorHeight1, effectiveActuatorHeight2
 import pwm_funcs as pwm
 
-#TODO: Make sure the first and second actuator move at different times
-
-
 #Actuator a is for tilting the panel up and down--the angle towards to sun--to maintain a 45 degree angle
 maxActuatorHeight = 2
 myPercent = effectiveActuatorHeight1 / maxActuatorHeight
@@ -19,4 +16,3 @@ maxActuatorHeight = 2 #TODO: Confirm maxActuatorHeight is equivalent for both ac
 myPercent = effectiveActuatorHeight2 / maxActuatorHeight
 b = pwm.Actuator(3, maxActuatorHeight, myPercent, 700, True)
 b.set(myPercent)
-
