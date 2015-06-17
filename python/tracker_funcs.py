@@ -34,8 +34,7 @@ class Location:
 
 	def alt(self, lat, lon, time):
 		a = get_altitude(lat, lon, time)
-		if a < 0:
-			raise ValueError("Cannot calculate. Sun is below the horizon.")
+		#if a < 0: do something	
 		return a
 
 	def azimuth(self, lat, lon, time):
@@ -58,8 +57,8 @@ class Location:
 	# ---------<-distActuatorToOrigin
 
 	"""Calculate the most effective height of the first tilting actuator based upon the assumption solar panels are most efficent angled 45 degrees to the sun. Dist(a, o) is represented by base. Math: tan(S1) = a / distActuatorToOrigin & S1 = 90 - altitude ==> a = tan(90-altitude) * distActuatorToOrigin.  Note: the house is angled at 21 degrees so we must take the tangent of (61-altitude) in actuality...a = tan(61-alt) *distActuatorToOrigin"""
-	def calcTiltingHeight(self, o_a_dist1):
-		val = 69 - self.alt(self.lat, self.lon, self.time)
+	def calcTiltingHeight(self, o_a_dist1, input_time):
+		val = 69 - self.alt(self.lat, self.lon, input_time)
 		left = tan(radians(val))
 		right = o_a_dist1
 		x = left * right
@@ -67,35 +66,34 @@ class Location:
 		return x
 
 	"""Return the value calculated via the law of consines, the # of inches the second actuator must be move in order to pan the solar panel according to the azimuth."""
-	def calcPanningHeight(self, o_a_dist2):
-		azimuth = self.azimuth(self.lat, self.lon, self.time)
+	def calcPanningHeight(self, o_a_dist2, input_time):
+		azimuth = self.azimuth(self.lat, self.lon, input_time)
 		# if azimuth < 0:
 		# 	azimuth = 360 + azimuth #TODO: unsure
 		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
 		x = math.sqrt(val)
 		#print("value to sqrt: ", val)
-		print("Effective actuator2 height: ", x)
+		print("Effective actuator2 height: ", x, " inches")
 		return x	
 
 	"""Print the actuator values at hourly increments starting at input time."""
-	def demoDay(self, lat, lon, time):
+	def simulateDemoDay(self, lat, lon):
 			print()
-			try:
-				print()
-				print("lat,lon: (", lat, ", ", lon, ") \n")
-				while True:
-					print(self.time + datetime.timedelta(hours = -7)) #back to PST
-					print_alt(self)
-					self.calcTiltingHeight(self.o_a_dist1)
-					self.calcPanningHeight(self.o_a_dist2)
+			print("lat,lon: (", lat, ", ", lon, ") \n")
+			while True:
+				if self.alt(lat, lon, self.time) < 0:
+					print("ValueError: altitude is below zero.")
+					break
 
-					self.incrementTime(self.time)
-					print()
-				self.resetTime(now)
-			except ValueError:
-				print("ValueError: altitude is below zero. Loop exited.")
-				self.resetTime(now)
-				pass
+				print((self.time + datetime.timedelta(hours = -7)).strftime('%H:%M:%S PST')) #back to PST
+				print_alt(self)
+				self.calcTiltingHeight(self.o_a_dist1, self.time)
+				self.calcPanningHeight(self.o_a_dist2, self.time)
+
+				self.incrementTime(self.time)
+				print()
+			self.resetTime(now)
+
 
 """Print all relevant location data"""
 def printLocationInfo(loc):
