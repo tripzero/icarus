@@ -22,7 +22,6 @@ demo_d = datetime.datetime(dyear, dmonth, dday, dhour, dminute, dsecond, tzinfo 
 print("Input time (PST): ", demo_d)
 demo_d += datetime.timedelta(hours = 7) #Converted inputted PST --> UTC standard 7 hours ahead
 print("Output time(UTC): ", demo_d)
-print_d = copy.deepcopy(demo_d) + datetime.timedelta(hours = -7)
 
 #Demo the day
 lat = config["locationInfo"]["latitude"]
