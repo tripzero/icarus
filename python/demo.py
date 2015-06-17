@@ -1,7 +1,7 @@
-#demo.py
-#TODO: make demo_d utilize the config location
 import tracker_funcs as t
-import json, datetime
+import json, datetime, copy
+import pysolar.constants as c
+from pysolar.simulate import simulate_span
 
 with open('config.json') as dataFile:
 	config = json.load(dataFile)
@@ -17,11 +17,12 @@ dsecond = config["locationInfo"]["second"]
 distAO1 = config["distInfo"]["distActuatorToOrigin"]
 distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 
-#intializing time
+#Intializing time
 demo_d = datetime.datetime(dyear, dmonth, dday, dhour, dminute, dsecond, tzinfo = datetime.timezone.utc)
 print("Input time (PST): ", demo_d)
 demo_d += datetime.timedelta(hours = 7) #Converted inputted PST --> UTC standard 7 hours ahead
 print("Output time(UTC): ", demo_d)
+print_d = copy.deepcopy(demo_d) + datetime.timedelta(hours = -7)
 
 #Demo the day
 lat = config["locationInfo"]["latitude"]

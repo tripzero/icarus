@@ -12,7 +12,7 @@ a.set(myPercent)
 
 
 #Actuator b is for panning the panel horizonally--according to the azimuth
-maxActuatorHeight = 2 #TODO: Confirm maxActuatorHeight is equivalent for both actuators and both will use mraa pwm
+maxActuatorHeight = 2
 myPercent = effectiveActuatorHeight2 / maxActuatorHeight
 b = pwm.Actuator(3, maxActuatorHeight, myPercent, 700, True)
 b.set(myPercent)

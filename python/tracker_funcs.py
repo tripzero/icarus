@@ -81,15 +81,16 @@ class Location:
 	def demoDay(self, lat, lon, time):
 			print()
 			try:
-				#print("Demo of ", self.name, " ", time, ":")
 				print()
 				print("lat,lon: (", lat, ", ", lon, ") \n")
 				while True:
-					print(self.time)
+					print(self.time + datetime.timedelta(hours = -7)) #back to PST
 					print_alt(self)
 					self.calcTiltingHeight(self.o_a_dist1)
+					self.calcPanningHeight(self.o_a_dist2)
+
 					self.incrementTime(self.time)
-					#print()
+					print()
 				self.resetTime(now)
 			except ValueError:
 				print("ValueError: altitude is below zero. Loop exited.")
