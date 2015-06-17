@@ -19,13 +19,13 @@ distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 
 #Intializing time
 demo_d = datetime.datetime(dyear, dmonth, dday, dhour, dminute, dsecond, tzinfo = datetime.timezone.utc)
-print("Input time (PST): ", demo_d)
+print("Input time (PST): ", demo_d.strftime('%H:%M:%S'))
 demo_d += datetime.timedelta(hours = 7) #Converted inputted PST --> UTC standard 7 hours ahead
-print("Output time(UTC): ", demo_d)
+print("Output time(UTC): ", demo_d.strftime('%H:%M:%S'))
 
 #Demo the day
 lat = config["locationInfo"]["latitude"]
 name = config["locationInfo"]["name"]
 lon = config["locationInfo"]["longitude"]
 demoLoc = t.Location(name, lat, lon, demo_d, distAO1, distAO2)
-demoLoc.demoDay(37.3, -121.99, demo_d)
+demoLoc.simulateDemoDay(37.3, -121.99)
