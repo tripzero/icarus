@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import mraa
-import ina219
 
 class Mode:
 	Sweeping = 0
@@ -16,14 +15,15 @@ class Mppt:
 
 	mode = Mode.Searching
 
-	def __init__(self, mosfetPin, output, inputVoltsPin, targetVolts):
+	def __init__(self, mosfetPin, outputVoltDriver, inputVoltsDriver, currentDriver, targetVolts, minInputVolts = 6):
 
 		self.mosfet = mraa.Pwm(mosfetPin)
 		self.mosfet.period_us(700)
 		self.mosfet.enable(True)
 
-		self.output = output
-		self.input = inputVoltsPin
+		self.output = outputVoltDriver
+		self.input = inputVoltsDriver
+		self.outputCurrent = currentDriver
 		self.highWatts = 0
 		self.prevWatts = 0
 		self.maxWatts = 10
@@ -44,10 +44,10 @@ class Mppt:
 
 	def poll(self):
 
-		amps = self.output.current()
-		outputVolts = self.output.busVoltage()
-		outputWatts = outputVolts * (amps/1000)
-		inputVolts = 7 #TODO: read actual input volts!
+		amps = self.outputCurrent.get()
+		outputVolts = self.output.get()
+		outputWatts = outputVolts * amps
+		inputVolts = self.input.get()
 
 		self.volts = outputVolts
 		self.current = amps
@@ -78,7 +78,7 @@ class Mppt:
 		if outputWatts > self.highWatts:
 			self.highWatts = outputWatts
 
-		if outputVolts > self.targetVolts or outputWatts > self.maxWatts or outputVolts == 0:
+		if outputVolts > self.targetVolts or outputWatts > self.maxWatts:
 			self.pwmInc = -1
 
 		if inputVolts < self.inputVoltThreshold:
