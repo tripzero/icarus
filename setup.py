@@ -23,7 +23,9 @@ setup(
 	    packages = {'python'},
 	    url = 'https://github.com/tripzero/mppt',
 	    py_modules = ['python.pwm_funcs',
-	    			 'python.tracker_funcs'],
+	    			 'python.tracker_funcs',
+	    			 'python.ina219',
+	    			 'python.mppt'],
 	    #'python.config.json',
 	    license = 'Intel',
 
