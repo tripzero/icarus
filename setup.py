@@ -1,6 +1,6 @@
 #someone always prefers setuptools over distutils.core
 import os, json
-from setuptools import setup, find_packages
+from distutils.core import setup #must import find_package
 
 # from setuptools import setup, find_packages
 # from os.path import join, dirname
@@ -14,30 +14,29 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = 'mppt',
-    author= 'Kevron Rees, Ryan Kapur',
-    author_email = 'kevron.rees@intel.com',
-    version = '1.0',
-    long_description=read('README.txt'),
-    package_dir = ['python', 'arduino', 'pysolar'],
-    url = 'https://github.com/tripzero/mppt',
-    py_modules = ['python.tracker_funcs', 'python.pwm_funcs', 'python.config.json', 'arduino.'],
-    #'python.config.json',
-    license = 'Intel',
+	    name = 'mppt',
+	    author= 'Kevron Rees, Ryan Kapur',
+	    author_email = 'kevron.rees@intel.com',
+	    version = '1.0',
+	    long_description=read('README.txt'),
+	    packages = {'python', 'arduino', 'pysolar'},
+	    url = 'https://github.com/tripzero/mppt',
+	    py_modules = ['python.tracker_funcs', 'python.pwm_funcs', 'arduino.'],
+	    #'python.config.json',
+	    license = 'Intel',
 
 
-	classifiers = [
-		'Development Status :: 3 - Alpha',
-    	'Intended Audience :: Developers',
-		'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
-		'Programming Language :: Python :: 3.4',
+		classifiers = [
+			'Development Status :: 3 - Alpha',
+	    	'Intended Audience :: Developers',
+			'Programming Language :: Python :: 3',
+	        'Programming Language :: Python :: 3.2',
+	        'Programming Language :: Python :: 3.3',
+			'Programming Language :: Python :: 3.4',
+		]
 
-	],
-
-	packages = find_packages(exclude = ['dist', 'build', 'tests*']),
-	install_requires=['mraa', 'pysolar', 'autobahn'], #these files will be installed by pip; what about pip3?
+		#packages = find_packages(exclude = ['dist', 'build', 'tests*']),
+		#install_requires=['python3>= 3.0', mraa'], #these files will be installed by pip; what about pip3?
 
 
 	)
