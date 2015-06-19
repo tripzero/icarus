@@ -13,6 +13,8 @@ import actuator_pwm
 import numpy as np
 import struct
 
+tiltData = 0 #TODO
+
 #test class
 class SolarServer(Actuator):
 	
@@ -40,7 +42,7 @@ class WSClient(WebSocketClientFactory):
 			self.connected()
 
 	def send(self, msg):
-		msg = bytes(msg)
+		msg = bytes(msg) #tiltdata
 		if self.server:
 			print("sending:", msg)
 			self.server.sendMessage(msg, True)
@@ -49,9 +51,7 @@ class WSClient(WebSocketClientFactory):
 		if not self.server:
 			return
 
-
-
-		self.send(ledsToChange)
+		self.send(tiltData)
 
 	def unregister(self):
 		self.server = None

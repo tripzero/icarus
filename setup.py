@@ -1,9 +1,9 @@
 #someone always prefers setuptools over distutils.core
 import os, json
-from distutils.core import setup #must import find_package
+#from distutils.core import setup #must import find_package
 
-# from setuptools import setup, find_packages
-# from os.path import join, dirname
+from setuptools import setup, find_packages
+from os.path import join, dirname
 
 #######################################################3
 # Utility function to read the README file.
@@ -18,13 +18,16 @@ setup(
 	    author= 'Kevron Rees, Ryan Kapur',
 	    author_email = 'kevron.rees@intel.com',
 	    version = '1.0',
+	    date_created = '6/19/2015',
 	    long_description=read('README.txt'),
-	    packages = {'python', 'arduino', 'pysolar'},
+	    packages = {'python'},
 	    url = 'https://github.com/tripzero/mppt',
-	    py_modules = ['python.tracker_funcs', 'python.pwm_funcs', 'arduino.'],
+	    py_modules = ['python.pwm_funcs',
+	    			 'python.tracker_funcs'],
 	    #'python.config.json',
 	    license = 'Intel',
 
+		install_requires = ['autobahn'], 
 
 		classifiers = [
 			'Development Status :: 3 - Alpha',
@@ -36,7 +39,7 @@ setup(
 		]
 
 		#packages = find_packages(exclude = ['dist', 'build', 'tests*']),
-		#install_requires=['python3>= 3.0', mraa'], #these files will be installed by pip; what about pip3?
+		#these files will be installed by pip; what about pip3?
 
 
 	)

@@ -24,8 +24,9 @@ def moveA():
 	a.move(tiltPercent)
 
 loop = task.LoopingCall(moveA())
-loop.start(1.0) #1 second; l.stop() can stop the looping
+loop.start(1.0) #seconds; l.stop() can stop the looping
 reactor.run()
+
 
 """Actuator b is for panning the panel horizonally according to the azimuth. It is currently not implemented in the SmartHouse."""
 ##rewrite in akin format ^^^ if eventually reinstated
