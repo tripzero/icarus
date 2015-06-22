@@ -39,9 +39,4 @@ setup(
 	        'Programming Language :: Python :: 3.3',
 			'Programming Language :: Python :: 3.4',
 		]
-
-		#packages = find_packages(exclude = ['dist', 'build', 'tests*']),
-		#these files will be installed by pip; what about pip3?
-
-
 	)

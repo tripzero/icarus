@@ -1,6 +1,10 @@
 from threading import Thread
+import sys
 from twisted.internet import gireactor #default reactor uses a min size of 5, max size of 10.
-gireactor.install()
+try: 
+	gireactor.install()
+except:
+	print("Gireactor already installed")
 
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS, WebSocketClientProtocol, WebSocketClientFactory, connectWS
 
@@ -8,24 +12,18 @@ from twisted.internet import reactor
 from twisted.python import log
 
 from pwm_funcs import Actuator
-import sys
-import actuator_pwm
-import numpy as np
-import struct
+import struct #TODO: why?
+import json
 
-tiltData = 0 #TODO
-
-#test class
-class SolarServer(Actuator):
+#class for testing
+class SolarServer():
 	
-	def __init__(self, pin, percent, period, isPWM):
-		super().__init__(self, pin, percent, period, isPWM)
-		#TODO: MyServerProtocol.lightServer = self
-
+	def __init__(self):
+		#super().__init__(self, pin, percent, period, isPWM)
 		log.startLogging(sys.stdout)
 
 		#Running the server
-		factory = WebSocketServerFactory("ws://localhost:5000")
+		factory = WebSocketServerFactory("ws://localhost:6000")
 		factory.protocol = MyServerProtocol
 		
 		listenWS(factory) #Listen for incoming WebSocket connections from clients.
@@ -35,6 +33,14 @@ class SolarServer(Actuator):
 
 
 class WSClient(WebSocketClientFactory):
+
+	server, connected = None, None
+
+	def __init__(self, address, port):
+		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=True, origin='null')
+
+		self.protocol = WSClientProtocol
+		connectWS(self)
 
 	def register(self, server):
 		self.server = server
@@ -47,11 +53,11 @@ class WSClient(WebSocketClientFactory):
 			print("sending:", msg)
 			self.server.sendMessage(msg, True)
 
-	def update(self, tiltData): #TODO
+	def update(self, tiltInfo): #TODO
 		if not self.server:
 			return
-
-		self.send(tiltData)
+			j = {"tiltPercentage" : tiltInfo}
+			self.send(json.dumps(j)) #json dump ; float error
 
 	def unregister(self):
 		self.server = None
@@ -73,47 +79,46 @@ class WSClientProtocol(WebSocketClientProtocol):
 		else: #payload is text; convert UTF8 --> Python
 			print("Text message received: {0}".format(payload.decode('utf8')))
 
-	def onClose(self, wasClean, code, reason): #TODO: wasClean?
+	def onClose(self, wasClean, code, reason):
 		print("WebSocket connection closed: {0}".format(reason))
 		self.factory.unregister()
 
-#IRRELEVANT ATM
-# class MyServerProtocol(WebSocketServerProtocol):
-# 	lightServer = None
-# 	debug, debugCodePaths = True, True
+class MyServerProtocol(WebSocketServerProtocol):
+	lightServer = None
+	debug, debugCodePaths = True, True
 
-# 	def onOpen(self):
-# 		print("Ready to connect")
+	def onOpen(self):
+		print("Ready to connect")
 
-# 	def onConnect(self, request): 
-# 		print("Client connecting: {}".format(request.peer))
+	def onConnect(self, request): 
+		print("Client connecting: {}".format(request.peer))
 
-# 	def onMessage(self, payload, isBinary): #TODO: how to write this func
-# 		#self.sendMessage(payload, isBinary) #echo back a message
+	def onMessage(self, payload, isBinary): #TODO: how to write this func
+		#self.sendMessage(payload, isBinary) #echo back a message
 		
-# 		print("got a message: ", len(payload))
-# 		if not isBinary:
-# 			return
+		print("got a message: ", len(payload))
+		if not isBinary:
+			return
 
-# 		# payload = np.frombuffer(payload, np.uint8)
+		# payload = np.frombuffer(payload, np.uint8)
 
-# 		# cmd = payload[0]  #TODO: what is cmd
+		# cmd = payload[0]  #TODO: what is cmd
 
-# 		# print("cmd=", cmd)
+		# print("cmd=", cmd)
 
-# 		# if cmd == 0x01:
-# 		# 	self.setLights(payload)
-# 		# elif cmd == 0x02:
-# 		# 	self.setNumLights(payload)
-# 		# elif cmd == 0x03:
-# 		# 	self.clear()
+		# if cmd == 0x01:
+		# 	self.setLights(payload)
+		# elif cmd == 0x02:
+		# 	self.setNumLights(payload)
+		# elif cmd == 0x03:
+		# 	self.clear()
 
 
-# 	#TODO: setHeight function? copying logic from actuator ?
+	#TODO: setHeight function? copying logic from actuator ?
 
-# 	def clear(self):
-# 		print('clearing')
-# 		MyServerProtocol.lightServer.clear()
+	def clear(self):
+		print('clearing')
+		MyServerProtocol.lightServer.clear()
 
-# 	def connectionLost(self, reason):
-# 		WebSocketServerProtocol.connectionLost(self, reason)
+	def connectionLost(self, reason):
+		WebSocketServerProtocol.connectionLost(self, reason)

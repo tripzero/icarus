@@ -2,7 +2,7 @@ import solarserver
 import actuator_pwm as a
 
 
-test = solarserver.SolarServer(3, tiltPercent, 700, True)
+test = solarserver.SolarServer(3, a.tiltPercent, 700, True)
 test.move(tiltPercent)
 test.run() #TODO: difference between ^
 
