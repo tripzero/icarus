@@ -29,18 +29,12 @@ class Mppt:
 		self.maxWatts = 10
 		self.pmwInc = 1
 		self.targetVolts = targetVolts
-		self.inputVoltThreshold = 6
+		self.inputVoltThreshold = minInputVolts
 		self.volts = 0
 		self.current = 0
 		self.sweepMode = Mode.SweepUp
 		self.pwmValue = 0
-
-	def begin(self):
-
-		if self.targetVolts == 0:
-			print("please set target volts")
-
-		self.output.begin()
+		self.pwmInc = 1
 
 	def poll(self):
 
@@ -70,7 +64,7 @@ class Mppt:
 
 		if outputWatts < self.prevWatts:
 			self.pwmInc = -1
-		elif outputWatts > 0 and outputWatts >= prevWatts:
+		else:
 			self.pwmInc = 1
 
 		self.prevWatts = outputWatts
