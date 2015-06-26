@@ -4,19 +4,20 @@
 		"latitude" : 37.3,
 		"longitude" : -121.99,
 
-		"Demo Start time vvv" : "",
+		"Input demo start time vvv" : "",
 		"year": 2015,
 		"month": 6,
 		"day": 16,
 		"hour": 6,
-		"minute": 45,
-		"second": 0,
+		"minute": 48,
+		"second": 34,
 		"utc_time_diff" : 7
 	},
 
 	"distInfo" : {
-		"distActuatorToOrigin" : 0.66,
-		"distPanningActuatorToOrigin" : 1
+		"distActuatorToOrigin" : 0.8125,
+		"distPanningActuatorToOrigin" : 1,
+		"moveActuatorPerUnitOfSeconds" : 1
 	}
 
 }
