@@ -41,7 +41,9 @@ class Location:
 		a = get_azimuth(lat, lon, time)
 		return a
 
-	# a = Actuator height #Note-first, panning actuator calculations
+	#TODO: implement timezone handling within Location class
+
+	# a = Actuator height #first, panning actuator calculations
 	# o = origin
 	# H = distance from actuator to the pivot socket = distActuatorToPivot
 	#         /|  |
@@ -62,30 +64,30 @@ class Location:
 		left = tan(radians(val))
 		right = o_a_dist1
 		x = left * right
-		print("Effective actuator1 height: ", x, " inches")
+		print("Effective actuator1 height: ", '{:.5f}'.format(x), " inches")
 		return x
 
 	"""Return the value calculated via the law of consines, the # of inches the second actuator must be move in order to pan the solar panel according to the azimuth."""
 	def calcPanningHeight(self, o_a_dist2, input_time):
 		azimuth = self.azimuth(self.lat, self.lon, input_time)
 		# if azimuth < 0:
-		# 	azimuth = 360 + azimuth #TODO: unsure
+		# 	azimuth = 360 + azimuth #TODO: figure out correct handling
 		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
 		x = math.sqrt(val)
 		#print("value to sqrt: ", val)
-		print("Effective actuator2 height: ", x, " inches")
+		print("Effective actuator2 height: ", '{:.5f}'.format(x), " inches")
 		return x	
 
 	"""Print the actuator values at hourly increments starting at input time."""
-	def simulateDemoDay(self, lat, lon):
+	def simulateDemoDay(self, lat, lon, hours_after_UTC, input_time_zone):
 			print()
-			print("lat,lon: (", lat, ", ", lon, ") \n")
+			print("lat,lon: (", lat, ", ", lon,") \n")
 			while True:
 				if self.alt(lat, lon, self.time) < 0:
 					print("ValueError: altitude is below zero.")
 					break
-
-				print((self.time + datetime.timedelta(hours = -7)).strftime('%H:%M:%S PST')) #back to PST
+				#printing back to the input time (e.g PST)
+				print((self.time + datetime.timedelta(hours = -7)).strftime('%H:%M:%S ' + input_time_zone))
 				print_alt(self)
 				self.calcTiltingHeight(self.o_a_dist1, self.time)
 				self.calcPanningHeight(self.o_a_dist2, self.time)
@@ -103,7 +105,7 @@ def printLocationInfo(loc):
 	print_azimuth(loc)
 
 def print_coords(loc):
-	print("Coordinates of " + str(loc.name) + ": (", loc.lat, ",", loc.lon, ")")
+	print("Coordinates of " + str(loc.name) + ":(", loc.lat, ",", loc.lon, ")")
 def print_alt(loc):
 	print(str(loc.name) + " alt: ", loc.alt(loc.lat, loc.lon, loc.time))
 def print_azimuth(loc):

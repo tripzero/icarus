@@ -1,4 +1,4 @@
-# Pulse width modification is used to move the actuator variably. 
+# Pulse width modification is used to move the actuator variably
 #Documentation:  http://iotdk.intel.com/docs/master/mraa/python/mraa.html#mraa.Pwm
 import mraa, datetime
 from time import sleep
@@ -25,8 +25,8 @@ def moveA():
 	tiltPercent = t.effectiveActuatorHeight1 / maxActuatorHeight
 	client.update(tiltPercent)
 	
-	a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
-	a.move(tiltPercent)
+	# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu != mraa compatible)
+	# a.move(tiltPercent)
 
 loop = task.LoopingCall(moveA)
 loop.start(1.0) #seconds; l.stop() can stop the looping
