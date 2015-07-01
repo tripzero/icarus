@@ -16,5 +16,5 @@ To simulate actuator heights throughout the day, input relevant demoSimulationIn
 > $ python3 demo.py
 
 
-4. To move the actuators to the optimal heights according to the current local time,specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, as well as the distance from each actuator to the origin (pivot point) and then run:
+To move the actuators to the optimal heights according to the current local time,specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, as well as the distance from each actuator to the origin (pivot point) and  run:
 > $ python3 actuator_pwm.py
