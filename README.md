@@ -1,5 +1,7 @@
 # **Maximum power point tracking (MPPT)**
-*Intel OSTC SmartHouse Solar Panel Demo*
+*Intel OSTC DollHouse Solar Panel Demo*
+
+[DollHouse replica](https://3dwarehouse.sketchup.com/model.html?id=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5 "Notice the angled roof's is suboptimal at midday, causing negative actuator heights!")
 
 Download Pysolar as a dependency. 
 > $ sudo pip3 install pysolar
