@@ -1,7 +1,7 @@
 # **Maximum power point tracking (MPPT)**
 *Intel OSTC SmartHouse Solar Panel Demo*
 
-Please download Pysolar as a dependency. 
+Download Pysolar as a dependency. 
 > $ sudo pip3 install pysolar
 
 1. Input location coordinates into the config.json. Input the distance from the pivot point of the panel to the actuator--actuator1 is for tilting up/down and actuator2 is for panning.
