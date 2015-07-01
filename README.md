@@ -11,11 +11,9 @@ Download Pysolar as a dependency.
 
 > $ python3 tracking.py
 
-
 3. To view a simulation of actuator heights throughout the day, input relevant demoInfo within the config.json and run:
 
 > $ python3 demo.py
-
 
 4. To move the actuators to the optimal heights according to the current local time,specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, as well as the distance from each actuator to the origin (pivot point) and then run:
 
