@@ -1,20 +1,22 @@
 # **Maximum power point tracking (MPPT)**
 *Intel OSTC SmartHouse Solar Panel Demo*
 
-Please download Pysolar as a dependency via $ sudo pip3 install pysolar
+Please download Pysolar as a dependency. 
+> $ sudo pip3 install pysolar
 
-1. Input location coordinates into the config.json. Feel free to change the input demo start time. Input the distance from the pivot point of the panel to the actuator--actuator1 is for tilting up/down and actuator2 is for panning.
+1. Input location coordinates into the config.json. Input the distance from the pivot point of the panel to the actuator--actuator1 is for tilting up/down and actuator2 is for panning.
+*Note: hour_after_UTC is -7 for PST because Coordinated Universal Time is 7 hours ahead of Pacific Time. Be sure to verify timezone inputs.*
 
-To see an overview of altitude/azimuth statistics of the input location as compared to that of the Intel Hillsboro campus, run:
+To see an overview of altitude/azimuth statistics of the input location as compared to that of Intel's Hillsboro, OR campus, run:
 
 > $ python3 tracking.py
 
 
-To view a simulation of actuator heights throughout the day, run:
+To view a simulation of actuator heights throughout the day, input relevant demoInfo within the config.json and run:
 
 > $ python3 demo.py
 
 
-To move the actuators to the optimal heights according to the current local time, make sure to specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, and then run:
+To move the actuators to the optimal heights according to the current local time,specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, as well as the distance from each actuator to the origin (pivot point) and then run:
 
 > $ python3 actuator_pwm.py
