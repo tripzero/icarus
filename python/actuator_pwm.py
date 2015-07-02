@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import mraa, datetime
 from tracking import distAO1, distAO2, myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2, secToWait
 import pwm_funcs as pwm
@@ -49,32 +49,9 @@ class Run:
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
 
-
-
 #instatiate client and tell it connect to local host.
 # solarServer = s.SolarServer()
 # client = s.WSClient("127.0.0.1", "1913")
 # print("READ actuator_pwm.py")
 # print(client)
-=======
-# Pulse width modification is used to move the actuator variably. 
-#Documentation:  http://iotdk.intel.com/docs/master/mraa/python/mraa.html#mraa.Pwm
 
-import mraa, time
-from tracker import actuatorHeight
-
-print("Effective actuator height: ", actuatorHeight)
-pulse = mraa.Pwm(3)
-pulse.enable(True)
-pulse.period_us(700) #sets period in microseconds
-
-maxActuatorHeight = 2
-percent = actuatorHeight / maxActuatorHeight
-val = 0
-while val <= percent:
-	print(val)
-	pulse.write(val)
-	time.sleep(0.09) #verify speed is fine
-	val = val + 0.01
-
->>>>>>> f8460484166bd26e40fb8cfba748a9dc3fbea909
