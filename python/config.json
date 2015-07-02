@@ -1,5 +1,5 @@
 {
-	"locationInfo" : {
+	"demoLocationInfo" : {
 		"name" : "LinuxCon",
 		"latitude" : 37.3,
 		"longitude" : -121.99,
@@ -7,7 +7,7 @@
 		"hours_after_UTC" : 222
 	},
 
-	"demoSimulationInfo" : {
+	"SimulationInfo" : {
 		"name" : "Boise Simulation",
 		"lat" : 43.6167,
 		"lon" : -116.2,

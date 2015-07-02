@@ -21,11 +21,11 @@ To see an overview of altitude/azimuth statistics of the input location as compa
 > $ python3 tracking.py
 
 
-To simulate actuator heights throughout the day, input relevant demoSimulationInfo in the config.json and run:
-> $ python3 demo.py
+To simulate actuator heights throughout the day, input relevant SimulationInfo in the config.json and run:
+> $ python3 simulate_heights.py
 
 
-To move the actuators to the optimal heights according to the current local time,specify "moveActuatorPerUnitOfSeconds" to specify how often the solar panels should move, as well as the distance from each actuator to the origin (pivot point) and  run:
-> $ python3 actuator_pwm.py
+To demo the actuators infinitely, the "demoLocationInfo" must be accurate (don't worry about the timezone--it's based upon the datetime of the user's machine) in the config.json. Secondly, the config.json needs "distInfo" including "moveActuatorPerUnitOfSeconds" to specify how often the panels should move, as well as the two respective variables for the distance from actuator to origin (pivot point). Now run:
+> $ python3 run_actuators.py
 
 *mraa documentation: http://iotdk.intel.com/docs/master/mraa/python/*

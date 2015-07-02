@@ -1,7 +1,7 @@
-import tracker_funcs as t
-import json, datetime
+import json
+import datetime
 from pprint import pprint
-from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
+import tracker_funcs as t
 
 #Initialize inputs
 with open('config.json') as dataFile: # print("config.json: ") # pprint(config)
@@ -10,14 +10,15 @@ with open('config.json') as dataFile: # print("config.json: ") # pprint(config)
 distAO1 = config["distInfo"]["distActuatorToOrigin"]
 distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 secToWait = config["distInfo"]["moveActuatorPerUnitOfSeconds"]
-name = config["locationInfo"]["name"]
-lat = config["locationInfo"]["latitude"]
-lon = config["locationInfo"]["longitude"]
+name = config["demoLocationInfo"]["name"]
+tz = config["demoLocationInfo"]["tz_name"]
+lat = config["demoLocationInfo"]["latitude"]
+lon = config["demoLocationInfo"]["longitude"]
 
 d = datetime.datetime.now()
 
 def printTime():
-	print("Current local time is ", d)
+	print("Current local time is ", d, "and timezone is ", tz)
 
 #JF1 example location
 def calcExample():

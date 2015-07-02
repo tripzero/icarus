@@ -5,9 +5,9 @@ from pprint import pprint
 from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
 from math import tan, cos, radians, sqrt
 
-#Initialize inputs
-with open('config.json') as dataFile:
-	config = json.load(dataFile)
+# #Initialize inputs
+# with open('config.json') as dataFile:
+# 	config = json.load(dataFile)
 
 now = datetime.datetime.now()
 """A location has time-specific altitude, azimuth values (degrees) as per Pysolar. Using origin to actuator distances, the various effective actuator heights can be calculated."""

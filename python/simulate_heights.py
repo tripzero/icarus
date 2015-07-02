@@ -6,19 +6,19 @@ import pysolar.constants as c
 with open('config.json') as dataFile:
 	config = json.load(dataFile)
 
-#Intializing demo start time, actuator positioning relative to origin
-dyear = config["demoSimulationInfo"]["year"]
-dmonth = config["demoSimulationInfo"]["month"]
-dday = config["demoSimulationInfo"]["day"]
-dhour = config["demoSimulationInfo"]["hour"]
-dminute = config["demoSimulationInfo"]["minute"]
-dsecond = config["demoSimulationInfo"]["second"]
-dname = config["demoSimulationInfo"]["name"]
-doffset = config["demoSimulationInfo"]["hours_after_UTC"]
-dlat = config["demoSimulationInfo"]["lat"]
-dlon = config["demoSimulationInfo"]["lon"]
+#Intializing simulation demo start time, actuator positioning relative to origin
+dyear = config["SimulationInfo"]["year"]
+dmonth = config["SimulationInfo"]["month"]
+dday = config["SimulationInfo"]["day"]
+dhour = config["SimulationInfo"]["hour"]
+dminute = config["SimulationInfo"]["minute"]
+dsecond = config["SimulationInfo"]["second"]
+dname = config["SimulationInfo"]["name"]
+doffset = config["SimulationInfo"]["hours_after_UTC"]
+dlat = config["SimulationInfo"]["lat"]
+dlon = config["SimulationInfo"]["lon"]
 
-#doffset = config["locationInfo"]["hours_after_UTC"]
+#doffset = config["demoLocationInfo"]["hours_after_UTC"]
 distAO1 = config["distInfo"]["distActuatorToOrigin"]
 distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 
@@ -28,7 +28,7 @@ print("Input time: ", demo_d.strftime('%H:%M:%S'))
 demo_d += datetime.timedelta(hours = -doffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
 print("Utilized time(UTC): ", demo_d.strftime('%H:%M:%S'))
 
-#Demo the day
+#Simulate the day
 print("Demoing: ", dname, "...")
 demoLoc = t.Location(dname, dlat, dlon, demo_d, distAO1, distAO2)
 demoLoc.simulateDemoDay(dlat, dlon, doffset, "PST")

@@ -14,8 +14,9 @@ class Actuator:
 
 	def move(self, percent):
 		if self.isPWM:
+			#TODO: sun is below the horizon then sleep for x hours, confirm it's not just suboptimal due to roof
 			if percent < 0:
-				return
+				pass
 			x.enable(True)
 			x.period_us(700)
 			x.write(percent)
