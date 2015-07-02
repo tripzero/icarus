@@ -40,8 +40,6 @@ class Location:
 		a = get_azimuth(lat, lon, time)
 		return a
 
-	#TODO: implement timezone handling within Location class
-
 	# a = Actuator height #first, panning actuator calculations
 	# o = origin
 	# H = distance from actuator to the pivot socket = distActuatorToPivot
@@ -57,7 +55,7 @@ class Location:
 	#O<-pivot bolt
 	# ---------<-distActuatorToOrigin
 
-	"""Calculate the most effective height of the first tilting actuator based upon the assumption solar panels are most efficent angled 45 degrees to the sun. Dist(a, o) is represented by base. Math: tan(S1) = a / distActuatorToOrigin & S1 = 90 - altitude ==> a = tan(90-altitude) * distActuatorToOrigin.  Note: the house is angled at 21 degrees so we must take the tangent of (61-altitude) in actuality...a = tan(61-alt) *distActuatorToOrigin"""
+	"""Calculate the most effective height of the first tilting actuator based upon 45 degrees of the panels to the sun. Dist(a, o) is represented by base. Math: tan(S1) = a / distActuatorToOrigin & S1 = 90 - altitude ==> a = tan(90-altitude) * distActuatorToOrigin.  Note: the house is angled at 21 degrees so we must take the tangent of (61-altitude) in actuality...a = tan(61-alt) *distActuatorToOrigin"""
 	def calcTiltingHeight(self, o_a_dist1, input_time):
 		val = 69 - self.alt(self.lat, self.lon, input_time)
 		left = tan(radians(val))

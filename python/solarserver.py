@@ -67,7 +67,6 @@ class WSClient(WebSocketClientFactory):
 	def unregister(self):
 		self.server = None
 
-
 class WSClientProtocol(WebSocketClientProtocol):
 	
 	debug, debugCodePaths = False, False
@@ -118,9 +117,6 @@ class MyServerProtocol(WebSocketServerProtocol):
 		# 	self.setNumLights(payload)
 		# elif cmd == 0x03:
 		# 	self.clear()
-
-
-	#TODO: setHeight function? copying logic from actuator ?
 
 	def clear(self):
 		print('clearing')
