@@ -3,16 +3,21 @@
 		"name" : "LinuxCon",
 		"latitude" : 37.3,
 		"longitude" : -121.99,
-		"Input demo start time vvv" : "",
-		"hours_after_UTC" : -7
+		"tz_name" : "PST",
+		"hours_after_UTC" : 222
 	},
 
-	"startTimeInfo" : {
+	"demoSimulationInfo" : {
+		"name" : "Cannon Beach Simulation",
+		"lat" : 45.8892,
+		"lon" : -123.9608,
+		"tz_name" : "PST",
+		"hours_after_UTC" : -7,
 		"year": 2015,
 		"month": 6,
 		"day": 16,
 		"hour": 6,
-		"minute": 48,
+		"minute": 18,
 		"second": 34
 	},
 
