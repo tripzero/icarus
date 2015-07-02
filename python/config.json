@@ -8,9 +8,9 @@
 	},
 
 	"demoSimulationInfo" : {
-		"name" : "Cannon Beach Simulation",
-		"lat" : 45.8892,
-		"lon" : -123.9608,
+		"name" : "Boise Simulation",
+		"lat" : 43.6167,
+		"lon" : -116.2,
 		"tz_name" : "PST",
 		"hours_after_UTC" : -7,
 		"year": 2015,
@@ -24,7 +24,8 @@
 	"distInfo" : {
 		"distActuatorToOrigin" : 0.8125,
 		"distPanningActuatorToOrigin" : 1,
-		"moveActuatorPerUnitOfSeconds" : 1
+		"moveActuatorPerUnitOfSeconds" : 1,
+		"maxActuatorHeight" : 2
 	}
 
 }

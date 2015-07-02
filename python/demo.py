@@ -1,7 +1,7 @@
 import tracker_funcs as t
 import json, datetime, copy
 import pysolar.constants as c
-from pysolar.simulate import simulate_span
+#from pysolar.simulate import simulate_span
 
 with open('config.json') as dataFile:
 	config = json.load(dataFile)

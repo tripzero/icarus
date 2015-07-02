@@ -1,11 +1,12 @@
 # **Maximum power point tracking (MPPT)**
 *Intel OSTC DollHouse Solar Panel Demo*
 
-The goal of this project is to intergrate Pysolar API with python code w/ mraa-bindings to move actuators thereby allowing for maximum solar panel efficency according to the sun's position.
+The goal of this project is to intergrate Pysolar API with python code w/ mraa-bindings to move actuators thereby allowing for maximum solar panel efficency according to the sun's position. Pulse width modification (pwm) is used to move the actuator variably.
 
-<iframe src="https://3dwarehouse.sketchup.com/embed.html?mid=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5&width=400&height=300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" width="400" height="300" allowfullscreen></iframe>
 
-![logo](https://3dwarehouse.sketchup.com/warehouse/getpubliccontent?contentId=60b12dc9-d177-47dd-9213-45144566ce93 "Doll House")
+
+
+![logo](https://3dwarehouse.sketchup.com/warehouse/getpubliccontent?contentId=42765559-b10a-465e-8913-c5a3e1ef3e53 "Doll House")
 
 [DollHouse replica](https://3dwarehouse.sketchup.com/model.html?id=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5 "Notice the angled roof's is suboptimal during midday, temporarily resulting in negative actuator heights!")
 

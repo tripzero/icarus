@@ -1,20 +1,17 @@
-# Pulse width modification is used to move the actuator variably
-#Documentation:  http://iotdk.intel.com/docs/master/mraa/python/mraa.html#mraa.Pwm
 import mraa, datetime
-print("mraa imported")
-from time import sleep
-import tracking as t
+from tracking import distAO1, distAO2, myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2, secToWait
 import pwm_funcs as pwm
 from twisted.internet import task, reactor
 import solarserver as s
 
 class Run:
-	"""Sends updated tilt percentage from server to client."""
-	def __init__(self, client_ip, client_port):
+	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
+	def __init__(self, client_ip, client_port, maxActuatorHeight):
 
 		self.client = s.WSClient(client_ip, client_port)
 		self.client.debug = True
-		minActuatorHeight, maxActuatorHeight = 0, 2
+		self.minActuatorHeight = 0 
+		self.maxActuatorHeight = maxActuatorHeight
 		tiltPercent = 0
 
 	def connectToServer(self):
@@ -26,29 +23,27 @@ class Run:
 	# 	#client = s.WSClient("127.0.0.1", "1913")
 	# 	print("READ actuator_pwm.py; client is ", self.client)
 
-	def reactorLoop():
-		#make run func; potentially put it in the init of run class
+	def reactorLoop(self):
 		loop = task.LoopingCall(self.moveA)
-		loop.start(3.0) #seconds; l.stop() is inverse func
+		loop.start(secToWait)
 		reactor.run()
 
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
-	def moveA():
+	def moveA(self):
 		print(datetime.datetime.now().strftime('%H:%M:%S PST'))
 		print(" |", "\n", "V")
-		aValue = t.myLoc.calcTiltingHeight(t.distAO1, datetime.datetime.now())
-		print("aValue: ", aValue)
-		tiltPercent = t.effectiveActuatorHeight1 / maxActuatorHeight
-		client.update(tiltPercent)
-		a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
-		a.move(tiltPercent)
+		height = myLoc.calcTiltingHeight(distAO1, datetime.datetime.now())
+		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
+		self.client.update(tiltPercent)
+		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
+		# a.move(tiltPercent)
 	
 	"""Actuator b is for panning the panel horizonally according to the azimuth. Currently NOT implemented in the DollHouse."""
 	def moveB():
 		print(datetime.datetime.now().strftime('%H:%M:%S PST'))
 		print(" |", "\n", "V")
-		t.myLoc.calcPanningHeight(t.distAO2, datetime.datetime.now())
-		panPercent = t.effectiveActuatorHeight2 / maxActuatorHeight
+		myLoc.calcPanningHeight(distAO2, datetime.datetime.now())
+		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
 		client.update(tiltPercent2)
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
