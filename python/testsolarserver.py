@@ -1,5 +1,6 @@
-import solarserver
+import json
 import actuator_pwm as a
+import solarserver
 
 if __name__ == '__main__':
     import sys
@@ -7,7 +8,7 @@ if __name__ == '__main__':
     # log.startLogging(sys.stdout)
 
 def whenImConnected():
-	testclient.send(bytes("printing some data"), True)
+	testclient.send(json.dumps("printing some data").encode('utf8'))
 
 testsuite = a.Run("127.0.0.1", "666", 2)
 #TODO: create a test class in this file which has a server

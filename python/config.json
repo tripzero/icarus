@@ -24,7 +24,7 @@
 	"distInfo" : {
 		"distActuatorToOrigin" : 0.8125,
 		"distPanningActuatorToOrigin" : 1,
-		"moveActuatorPerUnitOfSeconds" : 1,
+		"moveActuatorPerUnitOfSeconds" : 3,
 		"maxActuatorHeight" : 2
 	}
 
