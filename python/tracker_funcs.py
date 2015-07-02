@@ -1,10 +1,9 @@
 #!/usr/bin/env python
-# import pysolar #docs.pysolar.org/en/latest/
 import datetime, json
-from pysolar.solar import * #TODO: potentially inefficent?
+from pysolar.solar import get_altitude, get_azimuth #TODO: potentially inefficent?
 from pprint import pprint
 from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
-from math import tan, cos, radians
+from math import tan, cos, radians, sqrt
 
 #Initialize inputs
 with open('config.json') as dataFile:
@@ -73,7 +72,7 @@ class Location:
 		# if azimuth < 0:
 		# 	azimuth = 360 + azimuth #TODO: figure out correct handling
 		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
-		x = math.sqrt(val)
+		x = sqrt(val)
 		#print("value to sqrt: ", val)
 		print("Effective actuator2 height: ", '{:.5f}'.format(x), " inches")
 		return x	
@@ -87,7 +86,7 @@ class Location:
 					print("ValueError: altitude is below zero.")
 					break
 				#printing back to the input time (e.g PST)
-				print((self.time + datetime.timedelta(hours = -7)).strftime('%H:%M:%S ' + input_time_zone))
+				print((self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%H:%M:%S ' + input_time_zone))
 				print_alt(self)
 				self.calcTiltingHeight(self.o_a_dist1, self.time)
 				self.calcPanningHeight(self.o_a_dist2, self.time)
@@ -95,7 +94,6 @@ class Location:
 				self.incrementTime(self.time)
 				print()
 			self.resetTime(now)
-
 
 """Print all relevant location data"""
 def printLocationInfo(loc):

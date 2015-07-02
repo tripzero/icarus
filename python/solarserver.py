@@ -5,31 +5,36 @@ try:
 	gireactor.install()
 except:
 	print("Gireactor already installed")
+	pass
 
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS, WebSocketClientProtocol, WebSocketClientFactory, connectWS
-
 from twisted.internet import reactor
 from twisted.python import log
-
-from pwm_funcs import Actuator
-import struct #TODO: why?
+import struct
 import json
 
-#class for testing
-class SolarServer():
+#class soley for testing
+class MyServer():
 	
 	def __init__(self):
 		#super().__init__(self, pin, percent, period, isPWM)
 		log.startLogging(sys.stdout)
 
 		#Running the server
-		factory = WebSocketServerFactory("ws://localhost:6000")
+		factory = WebSocketServerFactory("ws://localhost:8080")
 		factory.protocol = MyServerProtocol
 		
 		listenWS(factory) #Listen for incoming WebSocket connections from clients.
+		log.startLogging(sys.stdout)
 
-		def run(self):
-			reactor.run()
+	def run(self):
+		reactor.run()
+
+	# def send(self, msg):
+	# 	msg = bytes(msg) #tiltdata
+	# 	if self.server:
+	# 		print("sending:", msg)
+	# 		self.server.sendMessage(msg, True)
 
 
 class WSClient(WebSocketClientFactory):
@@ -37,10 +42,10 @@ class WSClient(WebSocketClientFactory):
 	server, connected = None, None
 
 	def __init__(self, address, port):
-		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=True, origin='null')
+		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=False, origin='null')
 
 		self.protocol = WSClientProtocol
-		connectWS(self)
+		#connectWS(self) #defer for after we instantiate the server in actuator_pwm; make a connect func
 
 	def register(self, server):
 		self.server = server
@@ -64,6 +69,7 @@ class WSClient(WebSocketClientFactory):
 
 
 class WSClientProtocol(WebSocketClientProtocol):
+	
 	debug, debugCodePaths = False, False
 
 	def onConnect(self, response):
@@ -122,3 +128,5 @@ class MyServerProtocol(WebSocketServerProtocol):
 
 	def connectionLost(self, reason):
 		WebSocketServerProtocol.connectionLost(self, reason)
+	
+print("End of solarserver.py")
