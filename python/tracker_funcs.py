@@ -1,13 +1,9 @@
 #!/usr/bin/env python
-import datetime, json
+import datetime, json, copy
 from pysolar.solar import get_altitude, get_azimuth #TODO: potentially inefficent?
 from pprint import pprint
 from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
 from math import tan, cos, radians, sqrt
-
-# #Initialize inputs
-# with open('config.json') as dataFile:
-# 	config = json.load(dataFile)
 
 now = datetime.datetime.now()
 """A location has time-specific altitude, azimuth values (degrees) as per Pysolar. Using origin to actuator distances, the various effective actuator heights can be calculated."""
@@ -20,10 +16,9 @@ class Location:
 		self.time = time
 		self.o_a_dist1 = o_a_dist1
 		self.o_a_dist2 = o_a_dist2
-		original = time
 
-	def incrementTime(self, time):
-		self.time += datetime.timedelta(minutes = 30)
+	def incrementTime(self, time, x):
+		self.time += datetime.timedelta(minutes = x)
 
 	def resetTime(self, time):
 		time = now
@@ -39,6 +34,14 @@ class Location:
 	def azimuth(self, lat, lon, time):
 		a = get_azimuth(lat, lon, time)
 		return a
+
+	def calcSunriseTime(self, lat, lon, time):
+		a = self.alt(lat, lon, time)
+		while a < 0:
+			a = self.alt(lat, lon, self.time)
+			self.incrementTime(self.time, 1)
+		return self.time
+
 
 	# a = Actuator height #first, panning actuator calculations
 	# o = origin
@@ -89,7 +92,7 @@ class Location:
 				self.calcTiltingHeight(self.o_a_dist1, self.time)
 				self.calcPanningHeight(self.o_a_dist2, self.time)
 
-				self.incrementTime(self.time)
+				self.incrementTime(self.time, 60)
 				print()
 			self.resetTime(now)
 

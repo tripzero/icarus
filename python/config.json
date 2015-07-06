@@ -4,7 +4,7 @@
 		"latitude" : 37.3,
 		"longitude" : -121.99,
 		"tz_name" : "PST",
-		"hours_after_UTC" : 222
+		"" : 0
 	},
 
 	"SimulationInfo" : {
@@ -16,7 +16,7 @@
 		"year": 2015,
 		"month": 6,
 		"day": 16,
-		"hour": 6,
+		"hour": 4,
 		"minute": 18,
 		"second": 34
 	},

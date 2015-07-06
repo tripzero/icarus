@@ -23,12 +23,17 @@ distAO1 = config["distInfo"]["distActuatorToOrigin"]
 distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 
 #Intializing time
-demo_d = datetime.datetime(dyear, dmonth, dday, dhour, dminute, dsecond, tzinfo = datetime.timezone.utc)
-print("Input time: ", demo_d.strftime('%H:%M:%S'))
-demo_d += datetime.timedelta(hours = -doffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
-print("Utilized time(UTC): ", demo_d.strftime('%H:%M:%S'))
+demoTime = datetime.datetime(dyear, dmonth, dday, dhour, dminute, dsecond, tzinfo = datetime.timezone.utc)
+print("Input time: ", demoTime.strftime('%H:%M:%S'))
+demoTime += datetime.timedelta(hours = -doffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
+print("Utilized time(UTC): ", demoTime.strftime('%H:%M:%S'))
+
 
 #Simulate the day
 print("Demoing: ", dname, "...")
-demoLoc = t.Location(dname, dlat, dlon, demo_d, distAO1, distAO2)
+demoLoc = t.Location(dname, dlat, dlon, demoTime, distAO1, distAO2)
+
+#Sunrise calculation
+print("sunrise time is: ", demoLoc.calcSunriseTime(dlat, dlon, demoTime))
+
 demoLoc.simulateDemoDay(dlat, dlon, doffset, "PST")
