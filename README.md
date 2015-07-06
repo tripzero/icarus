@@ -10,11 +10,17 @@ The goal of this project is to intergrate Pysolar API with python code w/ mraa-b
 
 [DollHouse replica](https://3dwarehouse.sketchup.com/model.html?id=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5 "Notice the angled roof's is suboptimal during midday, temporarily resulting in negative actuator heights!")
 
-Download Pysolar as a dependency. 
-> $ sudo pip3 install pysolar
+Download Pysolar 0.6 as a dependency. 
+> $ sudo python setup.py install
+
+Clone mraa and follow the install/build instructions; cmake-gui is useful during the build process to enable -DBUILDSWIGPYTHON, -BUILDSWIG. Next, confirm mraa.py and _mraa.so are in dist-packages.
+> git clone https://github.com/intel-iot-devkit/mraa.git
+> mv /usr/local/lib/python2.7/site-packages/ /usr/local/lib/python2.7/dist-packages
+
+*(To confirm the mraa build process is complete, open a python shell. 'import mraa' should result in "mraa: FATAL error, failed to initialise platform")*
 
 Input location coordinates into the config.json. Input the distance from the pivot point of the panel to the actuator--actuator1 is for tilting up/down and actuator2 is for panning.
-*Note: hour_after_UTC is -7 for PST because Coordinated Universal Time is 7 hours ahead of Pacific Time. Be sure to verify timezone inputs.*
+*Note: hour_after_UTC is -7 for PST because Coordinated Universal Time is 7 hours ahead of Pacific Time. Verify timezone inputs carefully.*
 
 
 To see an overview of altitude/azimuth statistics of the input location as compared to that of Intel's Hillsboro, OR campus, run:
@@ -29,4 +35,4 @@ To demo the actuators infinitely, the "demoLocationInfo" must be accurate (don't
 > $ python3 run_actuators.py
 
 *mraa documentation: http://iotdk.intel.com/docs/master/mraa/python/*
-*mraa download: https://github.com/intel-iot-devkit/mraa/blob/master/docs/building.md*
+

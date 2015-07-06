@@ -16,8 +16,6 @@ server = MyServer()
 #connect wsclient <--> server
 go.connectToServer()
 
-
-
 #start reactor
 go.reactorLoop()
 

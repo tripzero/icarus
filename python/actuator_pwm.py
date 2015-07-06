@@ -1,4 +1,4 @@
-
+from __future__ import print_function
 import mraa, datetime
 from tracking import distAO1, distAO2, myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2, secToWait
 import pwm_funcs as pwm
@@ -18,7 +18,6 @@ class Run:
 	def connectToServer(self):
 		s.connectWS(self.client)
 
-
 	def reactorLoop(self):
 		loop = task.LoopingCall(self.moveA)
 		loop.start(secToWait)
@@ -27,7 +26,7 @@ class Run:
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
 	def moveA(self):
 		print(datetime.datetime.now().strftime('%H:%M:%S PST'))
-		print(" |", "\n", "V", "\n")
+		print("\n", "|", "\n", "V", "\n")
 		height = myLoc.calcTiltingHeight(distAO1, datetime.datetime.now())
 		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
 		self.client.update(tiltPercent)
