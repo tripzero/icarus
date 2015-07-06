@@ -16,10 +16,8 @@ lat = config["demoLocationInfo"]["latitude"]
 lon = config["demoLocationInfo"]["longitude"]
 
 d = datetime.datetime.now()
-
 def printTime():
 	print("Current local time is ", d, "and timezone is ", tz)
-
 #JF1 example location
 def calcExample():
 	print()

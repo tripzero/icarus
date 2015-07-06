@@ -29,3 +29,4 @@ To demo the actuators infinitely, the "demoLocationInfo" must be accurate (don't
 > $ python3 run_actuators.py
 
 *mraa documentation: http://iotdk.intel.com/docs/master/mraa/python/*
+*mraa download: https://github.com/intel-iot-devkit/mraa/blob/master/docs/building.md*
