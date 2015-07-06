@@ -101,7 +101,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 	def onMessage(self, payload, isBinary): #TODO: how to write this func
 		#self.sendMessage(payload, isBinary) #echo back a message
 		
-		print("got a message: ", len(payload))
+		print "got a message: ", len(payload)
 		if not isBinary:
 			return
 

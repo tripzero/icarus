@@ -17,15 +17,15 @@ lon = config["demoLocationInfo"]["longitude"]
 
 d = datetime.datetime.now()
 def printTime():
-	print("Current local time is ", d, "and timezone is ", tz)
+	print "Current local time is ", d, "and timezone is ", tz
 #JF1 example location
 def calcExample():
-	print()
+	print
 	jf1 = t.Location("JF1", 45.541718, -122.960381, d, distAO1, distAO2)
 	t.printLocationInfo(jf1)
 	jf1.calcTiltingHeight(distAO1, jf1.time)
 	jf1.calcPanningHeight(distAO2, jf1.time)
-	print()
+	print
 
 #Config file's location
 myLoc = t.Location(name, lat, lon, d, distAO1, distAO2)

@@ -27,7 +27,7 @@ class Run:
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
 	def moveA(self):
 		print(datetime.datetime.now().strftime('%H:%M:%S PST'))
-		print(" |", "\n", "V")
+		print(" |", "\n", "V", "\n")
 		height = myLoc.calcTiltingHeight(distAO1, datetime.datetime.now())
 		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
 		self.client.update(tiltPercent)

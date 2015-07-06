@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import datetime, json, copy
-from pysolar.solar import get_altitude, get_azimuth #TODO: potentially inefficent?
+from Pysolar.solar import GetAltitude, GetAzimuth #TODO: potentially inefficent?
 from pprint import pprint
-from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
+#from Pysolar.time import get_delta_t, tt_offset, get_leap_seconds
 from math import tan, cos, radians, sqrt
 
 now = datetime.datetime.now()
@@ -27,12 +27,12 @@ class Location:
 		return (self.lat, self.lon)
 
 	def alt(self, lat, lon, time):
-		a = get_altitude(lat, lon, time)
+		a = GetAltitude(lat, lon, time)
 		#if a < 0: do something	
 		return a
 
 	def azimuth(self, lat, lon, time):
-		a = get_azimuth(lat, lon, time)
+		a = GetAzimuth(lat, lon, time)
 		return a
 
 	def calcSunriseTime(self, lat, lon, time):
@@ -64,7 +64,7 @@ class Location:
 		left = tan(radians(val))
 		right = o_a_dist1
 		x = left * right
-		print("Effective actuator1 height: ", '{:.5f}'.format(x), " inches")
+		print "Effective actuator1 height: ", '{:.5f}'.format(x), " inches"
 		return x
 
 	"""Return the value calculated via the law of consines, the # of inches the second actuator must be move in order to pan the solar panel according to the azimuth."""
@@ -75,39 +75,38 @@ class Location:
 		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
 		x = sqrt(val)
 		#print("value to sqrt: ", val)
-		print("Effective actuator2 height: ", '{:.5f}'.format(x), " inches")
+		print "Effective actuator2 height: ", '{:.5f}'.format(x), " inches"
 		return x	
 
 	"""Print the actuator values at hourly increments starting at input time."""
 	def simulateDemoDay(self, lat, lon, hours_after_UTC, input_time_zone):
-			print()
-			print("lat,lon: (", lat, ", ", lon,") \n")
+			print "/br", "lat,lon: (", lat, ", ", lon, ")"
 			while True:
 				if self.alt(lat, lon, self.time) < 0:
 					print("ValueError: altitude is below zero.")
 					break
 				#printing back to the input time (e.g PST)
-				print((self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%H:%M:%S ' + input_time_zone))
+				print(self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%H:%M:%S ' + input_time_zone)
 				print_alt(self)
 				self.calcTiltingHeight(self.o_a_dist1, self.time)
 				self.calcPanningHeight(self.o_a_dist2, self.time)
 
 				self.incrementTime(self.time, 60)
-				print()
+				print "/br"
 			self.resetTime(now)
 
 """Print all relevant location data"""
 def printLocationInfo(loc):
-	print("location object name: ", loc.name)
+	print"Location obj. name: ", loc.name
 	print_coords(loc)
 	print_alt(loc)
 	print_azimuth(loc)
 
 def print_coords(loc):
-	print("Coordinates of " + str(loc.name) + ":(", loc.lat, ",", loc.lon, ")")
+	print "Coords of " + str(loc.name) + ":(", loc.lat, ",", loc.lon, ")"
 def print_alt(loc):
-	print(str(loc.name) + " alt: ", loc.alt(loc.lat, loc.lon, loc.time))
+	print str(loc.name) + " alt: ", loc.alt(loc.lat, loc.lon, loc.time)
 def print_azimuth(loc):
-	print(str(loc.name) + " azimuth: ", loc.azimuth(loc.lat, loc.lon, loc.time))
+	print str(loc.name) + " azimuth: ", loc.azimuth(loc.lat, loc.lon, loc.time)
 def print_actuator1(loc):
-	print(str(loc.name) + " actuator height: ", loc.calcTiltingHeight(loc.o_a_dist1))
+	print str(loc.name) + " actuator height: ", loc.calcTiltingHeight(loc.o_a_dist1)
