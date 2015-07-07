@@ -4,7 +4,7 @@
 		"latitude" : 37.3,
 		"longitude" : -121.99,
 		"tz_name" : "PST",
-		"" : 0
+		"speedUpRate" : 10
 	},
 
 	"SimulationInfo" : {
