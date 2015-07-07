@@ -14,8 +14,9 @@ Download Pysolar 0.6 as a dependency.
 > $ sudo python setup.py install
 
 Clone mraa and follow the install/build instructions; cmake-gui is useful during the build process to enable -DBUILDSWIGPYTHON, -BUILDSWIG. Next, confirm mraa.py and _mraa.so are in dist-packages.
-> git clone https://github.com/intel-iot-devkit/mraa.git
-> mv /usr/local/lib/python2.7/site-packages/ /usr/local/lib/python2.7/dist-packages
+> $ git clone https://github.com/intel-iot-devkit/mraa.git
+
+> $ mv /usr/local/lib/python2.7/site-packages/ /usr/local/lib/python2.7/dist-packages
 
 *(To confirm the mraa build process is complete, open a python shell. 'import mraa' should result in "mraa: FATAL error, failed to initialise platform")*
 

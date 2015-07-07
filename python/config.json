@@ -8,14 +8,15 @@
 	},
 
 	"SimulationInfo" : {
-		"name" : "Boise Simulation",
-		"lat" : 43.6167,
-		"lon" : -116.2,
+		"name" : "Seattle Simulation",
+		"lat" : 47.610976,
+		"lon" : -122.333625,
 		"tz_name" : "PST",
-		"hours_after_UTC" : -6,
-		"year": 2015,
-		"month": 6,
-		"day": 16,
+		"hours_after_UTC" : -7,
+		"year": 2013,
+		"month": 7,
+		"day": 7,
+		
 		"hour": 4,
 		"minute": 18,
 		"second": 34
