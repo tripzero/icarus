@@ -44,11 +44,3 @@ class Run:
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
 
-	##instatiate client and tell it connect to local host.
-	# def createServer():
-	# 	solarServer = s.SolarServer()
-	# 	solarServer.debug = False
-	# 	#client = s.WSClient("127.0.0.1", "1913")
-	# 	print("READ actuator_pwm.py; client is ", self.client)
-
-
