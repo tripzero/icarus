@@ -29,6 +29,7 @@ class Run:
 		print(datetime.datetime.now().strftime('%H:%M:%S PST'))
 		print("\n", "|", "\n", "V", "\n")
 		height = myLoc.calcTiltingHeight(distAO1, datetime.datetime.now())
+		print("height within moveA", height)
 		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
 		self.client.update(tiltPercent)
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
