@@ -17,10 +17,9 @@ lon = config["demoLocationInfo"]["longitude"]
 rate = config["demoLocationInfo"]["speedUpRate"]
 offset = config["demoLocationInfo"]["hours_after_UTC"]
 
-
 d = datetime.datetime.utcnow()
 def printTime():
-	print "Current local time is ", d, "and timezone is ", tz
+	print "Local timezone (", tz, "):", (d + datetime.timedelta(hours = offset)).strftime('%H:%M:%S'), "/ ", d.strftime('%H:%M:%S UTC')
 #JF1 example location
 def calcExample():
 	print
@@ -30,12 +29,8 @@ def calcExample():
 	jf1.calcPanningHeight(distAO2, jf1.time)
 	print
 
-#Config file's location
-myLoc = t.Location(name, lat, lon, d, distAO1, distAO2)
-t.printLocationInfo(myLoc)
-effectiveActuatorHeight1 = myLoc.calcTiltingHeight(distAO1, myLoc.time)
-effectiveActuatorHeight2 = myLoc.calcPanningHeight(distAO2, myLoc.time)
-
-
-printTime()
-calcExample()
+def calcDemoHeights():
+	myLoc = t.Location(name, lat, lon, d, distAO1, distAO2)
+	t.printLocationInfo(myLoc)
+	effectiveActuatorHeight1 = myLoc.calcTiltingHeight(distAO1, myLoc.time)
+	effectiveActuatorHeight2 = myLoc.calcPanningHeight(distAO2, myLoc.time)
