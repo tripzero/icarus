@@ -14,6 +14,8 @@ print ("Demoing: ", x.sName)
 demoLoc = t.Location(x.sName, x.sLat, x.sLon, demoTime, x.distAO1, x.distAO2)
 
 #Sunrise calculation
+sunset_endtime = demoLoc.calcSunsetTime(x.sLat, x.sLon)
+print("sunset_time: ", sunset_endtime)
 print ("Sunrise (UTC) time is: ", demoLoc.calcSunriseTime(x.sLat, x.sLon, demoTime))
 
-demoLoc.simulateDemoDay(x.sLat, x.sLon, x.sOffset, x.sZone)
+demoLoc.simulateDemoDay(x.sLat, x.sLon, x.sOffset, x.sZone, sunset_endtime)

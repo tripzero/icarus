@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import datetime, json, copy
-from Pysolar.solar import GetAltitude, GetAzimuth #TODO: potentially inefficent?
-#from Pysolar.time import get_delta_t, tt_offset, get_leap_seconds
+from Pysolar.solar import GetAltitude, GetAzimuth
 from math import tan, cos, radians, sqrt
 
 now = datetime.datetime.now()
@@ -35,14 +34,6 @@ class Location:
 		a = GetAzimuth(lat, lon, time)
 		return a
 
-	def calcSunriseTime(self, lat, lon, time):
-		a = self.alt(lat, lon, time)
-		while a < 0:
-			a = self.alt(lat, lon, self.time)
-			self.incrementTime(self.time, 1)
-		return self.time
-
-
 	# a = Actuator height #first, panning actuator calculations
 	# o = origin
 	# H = distance from actuator to the pivot socket = distActuatorToPivot
@@ -72,7 +63,7 @@ class Location:
 		left = tan(radians(val))
 		right = o_a_dist1
 		x = left * right
-		print ("Effective actuator1 height: ", '{:.5f}'.format(x), " inches")
+		print ("Effective actuator1 height: ", '{:.4f}'.format(x), " inches")
 
 	"""Return the value calculated via the law of consines, the # of inches the second actuator must be move in order to pan the solar panel according to the azimuth."""
 	def calcPanHeight2(self, o_a_dist2, input_time):
@@ -87,25 +78,59 @@ class Location:
 		azimuth = self.azimuth(self.lat, self.lon, input_time)
 		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
 		x = sqrt(val)
-		print ("Effective actuator2 height: ", '{:.5f}'.format(x), " inches")
+		print ("Effective actuator2 height: ", '{:.4f}'.format(x), " inches")
+
+	def calcSunriseTime(self, lat, lon, time):
+		a = self.alt(lat, lon, time)
+		while a < 0:
+			a = self.alt(lat, lon, self.time)
+			self.incrementTime(self.time, 1)
+		return self.time
+
+	def calcSunsetTime(self, lat, lon):
+		year = int(datetime.datetime.now().strftime('%y'))
+		month = int(datetime.datetime.now().strftime('%m'))
+		day = int(datetime.datetime.now().strftime('%d'))
+
+		t = datetime.datetime(year, month, day + 1, 11, 43, 00)
+		a = self.alt(lat, lon, t)
+		while a < 0:
+			a = self.alt(lat, lon, t)
+			t += datetime.timedelta(minutes = -1)
+		return t
 
 	"""Print the actuator values at hourly increments starting at input time."""
-	def simulateDemoDay(self, lat, lon, hours_after_UTC, input_time_zone):
+	def simulateDemoDay(self, lat, lon, hours_after_UTC, input_time_zone, sunset_time):
 			print ("lat,lon: (", lat, ", ", lon, ")")
+			i = 0
 			while True:
-				if self.alt(lat, lon, self.time) < 0:
+				sunset = datetime.datetime.now()
+				curr_alt = self.alt(lat, lon, self.time)
+				#if self.time < sunset_time:
+				if curr_alt <= 0: #sunsettime:
 					print("ValueError: altitude is below zero.")
 					break
-				#printing back to the input time (e.g PST)
-				print((self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%H:%M:%S ' + input_time_zone))
-				print_alt(self)
 				self.calcTiltHeight1(self.o_a_dist1, self.time)
 				self.calcPanHeight2(self.o_a_dist2, self.time)
-				self.printTiltHeight1(self.o_a_dist1, self.time)
-				self.printPanHeight2(self.o_a_dist2, self.time)
+				
+				#print info every hour
+				if i % 60 == 0:
+					#printing back to the input time (e.g PST)
+					print((self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%m:%d:%y %H:%M:%S ' + input_time_zone))
+					print_alt(self)	
+					self.printTiltHeight1(self.o_a_dist1, self.time)
+					self.printPanHeight2(self.o_a_dist2, self.time)
+					print ("\n")
 
-				self.incrementTime(self.time, 60)
-				print ("\n")
+				i = i + 1
+				self.incrementTime(self.time, 1)
+
+			print("LAST PRINT:")
+			print((self.time + datetime.timedelta(hours = hours_after_UTC)).strftime('%m:%d:%y %H:%M:%S ' + input_time_zone))
+			print_alt(self)	
+			self.printTiltHeight1(self.o_a_dist1, self.time)
+			self.printPanHeight2(self.o_a_dist2, self.time)
+			#print last time before sunset
 			self.resetTime(now)
 
 """Print all relevant location data"""
