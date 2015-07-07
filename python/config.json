@@ -16,11 +16,7 @@
 		"hours_after_UTC" : -7,
 		"year": 2013,
 		"month": 7,
-		"day": 7,
-		
-		"hour": 4,
-		"minute": 18,
-		"second": 34
+		"day": 7
 	},
 
 	"distInfo" : {

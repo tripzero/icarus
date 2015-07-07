@@ -2,40 +2,18 @@ from __future__ import print_function
 import tracker_funcs as t
 import json, datetime, copy
 import Pysolar.constants as c
-#from pysolar.simulate import simulate_span
+from constants import constants as x
 
-with open('config.json') as dataFile:
-	config = json.load(dataFile)
-
-#Intializing simulation demo start time, actuator positioning relative to origin
-dyear = config["SimulationInfo"]["year"]
-dmonth = config["SimulationInfo"]["month"]
-dday = config["SimulationInfo"]["day"]
-# dhour = config["SimulationInfo"]["hour"]
-# dminute = config["SimulationInfo"]["minute"]
-# dsecond = config["SimulationInfo"]["second"]
-dname = config["SimulationInfo"]["name"]
-doffset = config["SimulationInfo"]["hours_after_UTC"]
-dlat = config["SimulationInfo"]["lat"]
-dlon = config["SimulationInfo"]["lon"]
-dzone = config["SimulationInfo"]["tz_name"]
-
-distAO1 = config["distInfo"]["distActuatorToOrigin"]
-distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
-
-#Intializing time
-
-demoTime = datetime.datetime(dyear, dmonth, dday, 4, 18, 34) #tzinfo = datetime.timezone.utc)
-print ("Input time (", tz, ")", demoTime.strftime('%H:%M:%S'))
-demoTime += datetime.timedelta(hours = -doffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
+demoTime = datetime.datetime(x.sYear, x.sMonth, x.sDay, 4, 18, 34) #tzinfo = datetime.timezone.utc)
+print ("Input time (", x.sZone, ")", demoTime.strftime('%H:%M:%S'))
+demoTime += datetime.timedelta(hours = -x.sOffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
 print ("Input time (UTC): ", demoTime.strftime('%H:%M:%S'))
 
-
 #Simulate the day
-print ("Demoing: ", dname)
-demoLoc = t.Location(dname, dlat, dlon, demoTime, distAO1, distAO2)
+print ("Demoing: ", x.sName)
+demoLoc = t.Location(x.sName, x.sLat, x.sLon, demoTime, x.distAO1, x.distAO2)
 
 #Sunrise calculation
-print ("Sunrise (UTC) time is: ", demoLoc.calcSunriseTime(dlat, dlon, demoTime))
+print ("Sunrise (UTC) time is: ", demoLoc.calcSunriseTime(x.sLat, x.sLon, demoTime))
 
-demoLoc.simulateDemoDay(dlat, dlon, doffset, dzone)
+demoLoc.simulateDemoDay(x.sLat, x.sLon, x.sOffset, x.sZone)

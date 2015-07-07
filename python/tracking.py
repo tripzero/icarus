@@ -2,35 +2,26 @@ import json
 import datetime
 from pprint import pprint
 import tracker_funcs as t
-
-#Initialize inputs
-with open('config.json') as dataFile: # print("config.json: ") # pprint(config)
-	config = json.load(dataFile)
-
-distAO1 = config["distInfo"]["distActuatorToOrigin"]
-distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
-secToWait = config["distInfo"]["moveActuatorPerUnitOfSeconds"]
-name = config["demoLocationInfo"]["name"]
-tz = config["demoLocationInfo"]["tz_name"]
-lat = config["demoLocationInfo"]["latitude"]
-lon = config["demoLocationInfo"]["longitude"]
-rate = config["demoLocationInfo"]["speedUpRate"]
-offset = config["demoLocationInfo"]["hours_after_UTC"]
+from constants import constants as x
 
 d = datetime.datetime.utcnow()
 def printTime():
-	print "Local timezone (", tz, "):", (d + datetime.timedelta(hours = offset)).strftime('%H:%M:%S'), "/ ", d.strftime('%H:%M:%S UTC')
+	print "Local timezone (", x.tz, "):", (d + datetime.timedelta(hours = x.offset)).strftime('%H:%M:%S'), "/ ", d.strftime('%H:%M:%S UTC')
+
 #JF1 example location
 def calcExample():
 	print
-	jf1 = t.Location("JF1", 45.541718, -122.960381, d, distAO1, distAO2)
+	jf1 = t.Location("JF1", 45.541718, -122.960381, d, x.distAO1, x.distAO2)
 	t.printLocationInfo(jf1)
-	jf1.calcTiltingHeight(distAO1, jf1.time)
-	jf1.calcPanningHeight(distAO2, jf1.time)
+	jf1.calcTiltHeight1(x.distAO1, jf1.time)
+	jf1.calcPanHeight2(x.distAO2, jf1.time)
 	print
 
-def calcDemoHeights():
-	myLoc = t.Location(name, lat, lon, d, distAO1, distAO2)
+myLoc = t.Location(x.name, x.lat, x.lon, d, x.distAO1, x.distAO2)
+effectiveActuatorHeight1 = myLoc.calcTiltHeight1(x.distAO1, myLoc.time)
+effectiveActuatorHeight2 = myLoc.calcPanHeight2(x.distAO2, myLoc.time)
+
+def printDemoHeights():
 	t.printLocationInfo(myLoc)
-	effectiveActuatorHeight1 = myLoc.calcTiltingHeight(distAO1, myLoc.time)
-	effectiveActuatorHeight2 = myLoc.calcPanningHeight(distAO2, myLoc.time)
+	myLoc.printTiltHeight1(x.distAO1, myLoc.time)
+	myLoc.printPanHeight2(x.distAO2, myLoc.time)
