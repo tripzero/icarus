@@ -14,8 +14,11 @@ name = config["demoLocationInfo"]["name"]
 tz = config["demoLocationInfo"]["tz_name"]
 lat = config["demoLocationInfo"]["latitude"]
 lon = config["demoLocationInfo"]["longitude"]
+rate = config["demoLocationInfo"]["speedUpRate"]
+offset = config["demoLocationInfo"]["hours_after_UTC"]
 
-d = datetime.datetime.now()
+
+d = datetime.datetime.utcnow()
 def printTime():
 	print "Current local time is ", d, "and timezone is ", tz
 #JF1 example location

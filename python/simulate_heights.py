@@ -20,14 +20,13 @@ dlat = config["SimulationInfo"]["lat"]
 dlon = config["SimulationInfo"]["lon"]
 dzone = config["SimulationInfo"]["tz_name"]
 
-#doffset = config["demoLocationInfo"]["hours_after_UTC"]
 distAO1 = config["distInfo"]["distActuatorToOrigin"]
 distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 
 #Intializing time
 
 demoTime = datetime.datetime(dyear, dmonth, dday, 4, 18, 34) #tzinfo = datetime.timezone.utc)
-print ("Input time: ", demoTime.strftime('%H:%M:%S'))
+print ("Input time (", tz, ")", demoTime.strftime('%H:%M:%S'))
 demoTime += datetime.timedelta(hours = -doffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
 print ("Input time (UTC): ", demoTime.strftime('%H:%M:%S'))
 
