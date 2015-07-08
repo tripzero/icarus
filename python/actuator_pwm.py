@@ -16,7 +16,7 @@ class Run:
 		self.minActuatorHeight = 0 
 		self.maxActuatorHeight = maxActuatorHeight
 		self.speedUpFactor = speedUpFactor
-		if speedUpFactor == 0:
+		if speedUpFactor < 1:
 			self.speedUpFactor = 1
 		tiltPercent = 0
 		self.stop = False
@@ -26,37 +26,30 @@ class Run:
 	def connectToServer(self):
 		s.connectWS(self.client)
 
-	def reactorLoop(self, tiltDemoDay = True, stop = False):
-		if not tiltDemoDay:		
+	def reactorLoop(self, tiltDemoDay = True):
+		if not tiltDemoDay:	
+			print("tiltDemoDay")			
 			loop = task.LoopingCall(self.tiltInfinitely)
 		else:
 			print("tiltDemoDay")			
 			loop = task.LoopingCall(self.tiltDemoDay)
 
-		if stop:
-			print("stopping!")
-			loop.stop()
-			pass
-
-		
+		#INITIATE LOOP
 		loop.start(1/self.speedUpFactor) #x.secToWait
-
-		#self.demoT = datetime.datetime(x.year, x.month, x.day, 0, 0, 0)
 
 		reactor.run()
 		
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
 	def tiltDemoDay(self):
-		dayReference = x.day
-		print("startDay: ", dayReference, "; ", int(self.demoT.strftime('%d')))
-		#stop after 24 hours
-		print("checking if 1 day has passed")
-		if dayReference != int(self.demoT.strftime('%d')):
-			print("1 day has passed")
-			self.reactorLoop(True, True) #STOP
-			#loop.stop()
+
+		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
+		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
+		yearsPast = ( (int(self.demoT.strftime('%y'))) - x.year)
 
 
+		print("startDay: ", x.day, "; ", int(self.demoT.strftime('%d')))
+
+		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed)
 
 		self.demoT = self.demoT + datetime.timedelta(minutes = 1)
 
@@ -96,24 +89,20 @@ class Run:
 		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
 		self.client.update(tiltPercent)
+
+		##write to stats
+		f = file("stats.py")
+		f = open('stats.py', 'w')
+		print("As of ", datetime.datetime.now().strftime('%H:%M:%S UTC'), file = f)
+		f.write("Tilting actuator height: \r")
+		f.write(str(effectiveActuatorHeight1))
+		f.write("\nPanning actuator height: ")
+		f.write( str(effectiveActuatorHeight2))
+		f.close()
+
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
 
-
-
-	# """Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
-	# def moveA(self):
-	# 	d = datetime.datetime.utcnow()
-	# 	print(d.strftime('%H:%M:%S UTC'))
-	# 	d = d + datetime.timedelta(hours = x.offset)
-	# 	print((d.strftime('%H:%M:%S')), x.tz)
-	# 	print("\n", "|", "\n", "V", "\n")
-	# 	height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())
-	# 	myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
-	# 	tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
-	# 	self.client.update(tiltPercent)
-	# 	# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
-	# 	# a.move(tiltPercent)
 	
 	"""Actuator b is for panning the panel horizonally according to the azimuth. Currently NOT implemented in the DollHouse."""
 	def moveB():

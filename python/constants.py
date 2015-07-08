@@ -13,6 +13,7 @@ class Config:
 		self.distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
 		self.secToWait = config["distInfo"]["moveActuatorPerUnitOfSeconds"]
 		self.maxActuatorHeight = config["distInfo"]["maxActuatorHeight"]
+		
 		self.name = config["demoLocationInfo"]["name"]
 		self.lat = config["demoLocationInfo"]["latitude"]
 		self.lon = config["demoLocationInfo"]["longitude"]
@@ -36,6 +37,5 @@ class Config:
 		self.sLat = config["SimulationInfo"]["lat"]
 		self.sLon = config["SimulationInfo"]["lon"]
 		self.sZone = config["SimulationInfo"]["tz_name"]
-
 
 constants = Config('config.json')

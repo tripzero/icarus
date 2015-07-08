@@ -14,4 +14,4 @@ server = MyServer()
 go.connectToServer()
 
 #start reactor
-go.reactorLoop(True)
+go.reactorLoop()

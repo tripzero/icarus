@@ -105,19 +105,6 @@ class MyServerProtocol(WebSocketServerProtocol):
 		if not isBinary:
 			return
 
-		# payload = np.frombuffer(payload, np.uint8)
-
-		# cmd = payload[0]  #TODO: what is cmd
-
-		# print("cmd=", cmd)
-
-		# if cmd == 0x01:
-		# 	self.setLights(payload)
-		# elif cmd == 0x02:
-		# 	self.setNumLights(payload)
-		# elif cmd == 0x03:
-		# 	self.clear()
-
 	def clear(self):
 		print('clearing')
 		MyServerProtocol.lightServer.clear()
