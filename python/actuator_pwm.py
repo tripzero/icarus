@@ -31,8 +31,8 @@ class Run:
 		d = d + datetime.timedelta(hours = x.offset)
 		print((d.strftime('%H:%M:%S')), x.tz)
 		print("\n", "|", "\n", "V", "\n")
-		height = myLoc.calcTiltHeight1(x.distAO1, datetime.datetime.utcnow())
-		myLoc.printTiltHeight1(x.distAO1, datetime.datetime.utcnow())
+		height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())
+		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
 		self.client.update(tiltPercent)
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
@@ -42,8 +42,8 @@ class Run:
 	def moveB():
 		print(datetime.datetime.utcnow().strftime('%H:%M:%S PST'))
 		print(" |", "\n", "V")
-		myLoc.calcPanHeight2(x.distAO2, datetime.datetime.utcnow())
-		myLoc.printPanHeight2(x.distAO2, datetime.datetime.utcnow())
+		myLoc.calcPanHeight(x.distAO2, datetime.datetime.utcnow())
+		myLoc.printPanHeight(x.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
 		client.update(tiltPercent2)
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
