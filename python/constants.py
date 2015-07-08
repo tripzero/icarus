@@ -19,8 +19,12 @@ class Config:
 		self.rate = config["demoLocationInfo"]["speedUpRate"]
 		self.offset = config["demoLocationInfo"]["hours_after_UTC"]
 		self.tz = config["demoLocationInfo"]["tz_name"]
+		self.speed = config["demoLocationInfo"]["speedUpRate"]
+		self.year = config["demoLocationInfo"]["year"]
+		self.month = config["demoLocationInfo"]["month"]
+		self.day = config["demoLocationInfo"]["day"]
 
-		#simulate_heights
+		#used in simulate_heights.py
 		self.sYear = config["SimulationInfo"]["year"]
 		self.sMonth = config["SimulationInfo"]["month"]
 		self.sDay = config["SimulationInfo"]["day"]
