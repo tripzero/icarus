@@ -15,12 +15,16 @@ class Location:
 		self.time = time
 		self.o_a_dist1 = o_a_dist1
 		self.o_a_dist2 = o_a_dist2
+		# self.start = calcSunriseTime(self, lat, lon, time)
+		# self.stop = calcSunsetTime(self, lat, lon, time)
 
 	def incrementTime(self, time, x):
 		self.time += datetime.timedelta(minutes = x)
 
+	"""Reset time to real-time"""
 	def resetTime(self, time):
-		time = now
+		datetime.datetime.utcnow() #VERIFY UTC IS OK
+		#time = now
 
 	def coords(self):
 		return (self.lat, self.lon)
@@ -80,24 +84,34 @@ class Location:
 		x = sqrt(val)
 		print ("Effective actuator2 height: ", '{:.4f}'.format(x), " inches")
 
+	#def calcTime(self, lat, lon, time, sunset_calc = True):
+
+
+		"""Given an input time w/ the sun below the horizon, the function steps through time until the altitude is positive, thereby finding the sunset time."""
 	def calcSunriseTime(self, lat, lon, time):
-		a = self.alt(lat, lon, time)
-		while a < 0:
-			a = self.alt(lat, lon, self.time)
+		self.time = time
+		preT = self.alt(lat, lon, time)
+		while preT < 0:
+			preT = self.alt(lat, lon, self.time)
 			self.incrementTime(self.time, 1)
-		return self.time
+		ret = self.time
+		self.resetTime(time)
+		return ret
 
-	def calcSunsetTime(self, lat, lon):
-		year = int(datetime.datetime.now().strftime('%y'))
-		month = int(datetime.datetime.now().strftime('%m'))
-		day = int(datetime.datetime.now().strftime('%d'))
-
-		t = datetime.datetime(year, month, day + 1, 11, 43, 00)
-		a = self.alt(lat, lon, t)
-		while a < 0:
-			a = self.alt(lat, lon, t)
-			t += datetime.timedelta(minutes = -1)
-		return t
+	"""Given an input time w/ the sun below the horizon, the function steps back in time til the altitude is positive, thereby finding the sunset time."""
+	def calcSunsetTime(self, lat, lon, time):
+		# y = int(datetime.datetime.now().strftime('%y'))
+		# m = int(datetime.datetime.now().strftime('%m'))
+		# d = int(datetime.datetime.now().strftime('%d'))
+		# t = datetime.datetime(year, month, day + 1, 11, 43, 00)
+		self.time = time
+		postT = self.alt(lat, lon, self.time)
+		while postT < 0:
+			postT = self.alt(lat, lon, self.time)
+			self.incrementTime(self.time, 1)
+		ret = self.time
+		self.resetTime(time)
+		return ret
 
 	"""Print the actuator values at hourly increments starting at input time."""
 	def simulateDemoDay(self, lat, lon, hours_after_UTC, input_time_zone, sunset_time):

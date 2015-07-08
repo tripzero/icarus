@@ -4,18 +4,27 @@ import json, datetime, copy
 import Pysolar.constants as c
 from constants import constants as x
 
-demoTime = datetime.datetime(x.sYear, x.sMonth, x.sDay, 4, 18, 34) #tzinfo = datetime.timezone.utc)
-print ("Input time (", x.sZone, ")", demoTime.strftime('%H:%M:%S'))
-demoTime += datetime.timedelta(hours = -x.sOffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
-print ("Input time (UTC): ", demoTime.strftime('%H:%M:%S'))
+#Local time
+demoStartTime = datetime.datetime(x.sYear, x.sMonth, x.sDay, 4, 18, 34) #tzinfo = datetime.timezone.utc)
+print ("Pre-process time (", x.sZone, ")", demoStartTime.strftime('%H:%M:%S'))
 
-#Simulate the day
+#UTC time
+utcPreTime = demoStartTime + datetime.timedelta(hours = -x.sOffset) #Converted inputted (PST) --> UTC standard (+7 hrs)
+print ("Pre-process time (UTC): ", utcPreTime.strftime('%H:%M:%S'))
+
+#Initialize simulation
 print ("Demoing: ", x.sName)
-demoLoc = t.Location(x.sName, x.sLat, x.sLon, demoTime, x.distAO1, x.distAO2)
+demoLoc = t.Location(x.sName, x.sLat, x.sLon, demoStartTime, x.distAO1, x.distAO2)
 
-#Sunrise calculation
-sunset_endtime = demoLoc.calcSunsetTime(x.sLat, x.sLon)
-print("sunset_time: ", sunset_endtime)
-print ("Sunrise (UTC) time is: ", demoLoc.calcSunriseTime(x.sLat, x.sLon, demoTime))
+#sunRISE calculation
+pre = demoStartTime
+sunriseTime = demoLoc.calcSunriseTime(x.sLat, x.sLon, pre)
+print ("Sunrise (UTC) time: ", sunriseTime)
 
-demoLoc.simulateDemoDay(x.sLat, x.sLon, x.sOffset, x.sZone, sunset_endtime)
+#Sunset calculation
+post = demoStartTime
+sunsetTime = demoLoc.calcSunsetTime(x.sLat, x.sLon, post) + datetime.timedelta(hours = 19.5) #the latest sunset is ~11:42 PM
+print("Sunset (UTC) time: ", sunsetTime)
+
+
+demoLoc.simulateDemoDay(x.sLat, x.sLon, x.sOffset, x.sZone, sunsetTime)
