@@ -28,7 +28,7 @@ class Run:
 
 	def reactorLoop(self, tiltDemoDay = True):
 		if not tiltDemoDay:	
-			print("tiltDemoDay")			
+			print("tiltINFINITELY")			
 			loop = task.LoopingCall(self.tiltInfinitely)
 		else:
 			print("tiltDemoDay")			
@@ -44,13 +44,12 @@ class Run:
 
 		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
 		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
-		yearsPast = ( (int(self.demoT.strftime('%y'))) - x.year)
+		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
 
+		#print("startDay: ", x.day, "; ", "current demoT: ",  (self.demoT.strftime('%d:%m:%y')) )
+		#print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed) #VERIFY
 
-		print("startDay: ", x.day, "; ", int(self.demoT.strftime('%d')))
-
-		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed)
-
+		#Add a minute
 		self.demoT = self.demoT + datetime.timedelta(minutes = 1)
 
 		#Initializing UTC time
@@ -60,13 +59,21 @@ class Run:
 		prnt = self.demoT + datetime.timedelta(hours = x.offset)
 		print((prnt.strftime('%H:%M:%S')), x.tz)
 
-		print("\n", "|", "\n", "V", "\n")
+		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
 		#Calculate heights; VERIFY self.demoT IS ITERATING
 		height = myLoc.calcTiltHeight(x.distAO1, self.demoT)
 		myLoc.printTiltHeight(x.distAO1, self.demoT)
-		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
+		tiltPercent = height / self.maxActuatorHeight
+		if tiltPercent < 0:
+			tiltPercent = 0
+		if tiltPercent > 1:
+			tiltPercent = 1
+		#print("effectiveActuatorHeight1: ", effectiveActuatorHeight1)
+		print("tiltPercent: ", tiltPercent)
 		self.client.update(tiltPercent)
+
+
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
 
@@ -82,7 +89,7 @@ class Run:
 		d = d + datetime.timedelta(hours = x.offset)
 		print((d.strftime('%H:%M:%S')), x.tz)
 
-		print("\n", "|", "\n", "V", "\n")
+		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
 		#Calculate heights
 		height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())

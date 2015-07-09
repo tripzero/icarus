@@ -18,6 +18,8 @@ class Config:
 		self.lat = config["demoLocationInfo"]["latitude"]
 		self.lon = config["demoLocationInfo"]["longitude"]
 		self.rate = config["demoLocationInfo"]["speedUpRate"]
+		self.realtime = config["demoLocationInfo"]["real_time_movement"]
+
 		self.offset = config["demoLocationInfo"]["hours_after_UTC"]
 		self.tz = config["demoLocationInfo"]["tz_name"]
 		self.speed = config["demoLocationInfo"]["speedUpRate"]

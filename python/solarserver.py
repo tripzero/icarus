@@ -36,6 +36,8 @@ class MyServer():
 	# 		print("sending:", msg)
 	# 		self.server.sendMessage(msg, True)
 
+	def unregister(self):
+		self.server = None
 
 class WSClient(WebSocketClientFactory):
 
@@ -89,7 +91,6 @@ class WSClientProtocol(WebSocketClientProtocol):
 		self.factory.unregister()
 
 class MyServerProtocol(WebSocketServerProtocol):
-	lightServer = None
 	debug, debugCodePaths = True, True
 
 	def onOpen(self):

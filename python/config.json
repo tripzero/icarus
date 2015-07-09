@@ -5,10 +5,11 @@
 		"longitude" : -121.99,
 		"tz_name" : "PST",
 		"hours_after_UTC" : -7,
-		"speedUpRate" : 1000,
 		"year": 2015,
 		"month": 7,
-		"day": 7
+		"day": 9,
+		"speedUpRate" : 77,
+		"real_time_movement" : 0
 	},
 
 	"SimulationInfo" : {
@@ -19,7 +20,7 @@
 		"hours_after_UTC" : -7,
 		"year": 2015,
 		"month": 7,
-		"day": 7
+		"day": 9
 	},
 
 	"distInfo" : {
