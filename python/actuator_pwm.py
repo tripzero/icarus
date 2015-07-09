@@ -74,8 +74,8 @@ class Run:
 		self.client.update(tiltPercent)
 
 
-		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
-		# a.move(tiltPercent)
+		a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
+		a.move(tiltPercent)
 
 
 
@@ -88,7 +88,6 @@ class Run:
 		#Printing Local Time
 		d = d + datetime.timedelta(hours = x.offset)
 		print((d.strftime('%H:%M:%S')), x.tz)
-
 		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
 		#Calculate heights
