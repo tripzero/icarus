@@ -20,7 +20,4 @@ if x.realtime:
 else:
 	go.reactorLoop()
 
-#print("signal obj", signal)
-signal = signal.signal(signal.SIGINT, signal.SIG_DFL)
-
-#server.unregister() #VERIFY: this isn't working as is
+# signal = signal.signal(signal.SIGINT, signal.SIG_DFL)

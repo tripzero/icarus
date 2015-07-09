@@ -1,6 +1,6 @@
 from __future__ import print_function
 from __future__ import division
-import mraa, datetime
+import mraa, datetime, sys
 from constants import constants as x
 from tracking import myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2
 import pwm_funcs as pwm
@@ -34,20 +34,21 @@ class Run:
 			print("tiltDemoDay")			
 			loop = task.LoopingCall(self.tiltDemoDay)
 
-		#Initiate loop
+		#Initiate loop; cap the speed
+		if self.speedUpFactor > 25:
+			self.speedUpFactor = 20
 		loop.start(1/self.speedUpFactor)
 
 		reactor.run()
 		
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
 	def tiltDemoDay(self):
-
 		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
 		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
 		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
 
 		print("startDay: ", x.day, "; ", "current demoT: ",  (self.demoT.strftime('Date %m:%d:%y')) )
-		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed) #VERIFY
+		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", self.speedUpFactor)
 
 		#Add a minute
 		self.demoT = self.demoT + datetime.timedelta(minutes = 1)
@@ -72,7 +73,6 @@ class Run:
 
 		print("tiltPercent: ", tiltPercent)
 		self.client.update(tiltPercent) #send tiltPercent to client
-
 
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
