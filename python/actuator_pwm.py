@@ -34,8 +34,8 @@ class Run:
 			print("tiltDemoDay")			
 			loop = task.LoopingCall(self.tiltDemoDay)
 
-		#INITIATE LOOP
-		loop.start(1/self.speedUpFactor) #x.secToWait
+		#Initiate loop
+		loop.start(1/self.speedUpFactor)
 
 		reactor.run()
 		
@@ -46,8 +46,8 @@ class Run:
 		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
 		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
 
-		#print("startDay: ", x.day, "; ", "current demoT: ",  (self.demoT.strftime('%d:%m:%y')) )
-		#print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed) #VERIFY
+		print("startDay: ", x.day, "; ", "current demoT: ",  (self.demoT.strftime('Date %m:%d:%y')) )
+		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", x.speed) #VERIFY
 
 		#Add a minute
 		self.demoT = self.demoT + datetime.timedelta(minutes = 1)
@@ -59,19 +59,19 @@ class Run:
 		prnt = self.demoT + datetime.timedelta(hours = x.offset)
 		print((prnt.strftime('%H:%M:%S')), x.tz)
 
-		print("\n", "|", "\n", "|", "\n", "V", "\n")
+		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
 		#Calculate heights; VERIFY self.demoT IS ITERATING
 		height = myLoc.calcTiltHeight(x.distAO1, self.demoT)
 		myLoc.printTiltHeight(x.distAO1, self.demoT)
 		tiltPercent = height / self.maxActuatorHeight
 		if tiltPercent < 0:
-			tiltPercent = 0
-		if tiltPercent > 1:
+			tiltPercent = 0 #altitude is below zero; ignore
+		if tiltPercent > 1: 
 			tiltPercent = 1
-		#print("effectiveActuatorHeight1: ", effectiveActuatorHeight1)
+
 		print("tiltPercent: ", tiltPercent)
-		self.client.update(tiltPercent)
+		self.client.update(tiltPercent) #send tiltPercent to client
 
 
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)

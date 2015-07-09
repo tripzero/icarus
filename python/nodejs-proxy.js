@@ -6,31 +6,29 @@
 var sys = require("sys");
 sys.puts("Hello World");
 
-//example client use	
-var WebSocket = require('ws')
-  , ws = new WebSocket('ws://www.host.com/path');
-ws.on('open', function open() { //added the open
-    ws.send('test msg sent on open');
-});
-ws.on('message', function(message) {
-    console.log('received: %s', message);
-});
-
 //example server use
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: 8080});
-wss.on('connection', function(ws) {
+
+wss.on('connection', function connection(ws) {
 	console.log('nodejs websocket is connected')
-    ws.on('message', function(message) {
+    ws.on('message', function incoming(message) {
         console.log('received: %s', message); //parse the json we are sending (python code; the tilt percent.)
-    });
-    ws.send('something');
+    }); //console.debug?
+
+//server sending broadcast data 
+wss.broadcast = function broadcast(data) {
+  	wss.clients.forEach(function each(client) {
+    client.send(data);
+  	});
+
+    ws.send('something'); //tilt data?
 });
 
 ///////////////////////////////////////////////////////
 
 
-
+/*
 //Sending and receiving text data
 var WebSocket = require('ws');
 //how to import my autobahn websocket?
@@ -58,4 +56,4 @@ ws.on('open', function open() {
   }
 
   ws.send(array, { binary: true, mask: true });
-});
+});*/
