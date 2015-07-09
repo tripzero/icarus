@@ -9,8 +9,8 @@ sys.puts("Hello World");
 //example client use	
 var WebSocket = require('ws')
   , ws = new WebSocket('ws://www.host.com/path');
-ws.on('open', function() {
-    ws.send('something');
+ws.on('open', function open() { //added the open
+    ws.send('test msg sent on open');
 });
 ws.on('message', function(message) {
     console.log('received: %s', message);
