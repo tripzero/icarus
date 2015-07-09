@@ -10,21 +10,38 @@ sys.puts("Hello World");
 var WebSocketServer = require('ws').Server
   , wss = new WebSocketServer({port: 8080});
 
+
+// dummy request processing
+var processRequest = function( req, res ) {
+
+    res.writeHead(200);
+    res.end("All glory to WebSockets!\n");
+};
+
+var httpServ = require('http');
+var reactor = null;
+reactor = httpServ.createServer( processRequest ).listen( 8080 );
+
 wss.on('connection', function connection(ws) {
-	console.log('nodejs websocket is connected')
+	console.log('nodejs websocket is connected');
     ws.on('message', function incoming(message) {
         console.log('received: %s', message); //parse the json we are sending (python code; the tilt percent.)
     }); //console.debug?
-
-//server sending broadcast data 
-wss.broadcast = function broadcast(data) {
-  	wss.clients.forEach(function each(client) {
-    client.send(data);
-  	});
-
-    ws.send('something'); //tilt data?
 });
 
+
+//server sending broadcast data 
+/*wss.broadcast = function broadcast(data) {
+  	wss.clients.forEach(function each(client) {
+    client.send(data);
+    sys.puts("Hello World");
+  	});
+    wss.send('something'); //tilt data?
+};
+
+var msg = wss.broadcast("test broadcast msg")
+console.log(msg)
+*/
 ///////////////////////////////////////////////////////
 
 
