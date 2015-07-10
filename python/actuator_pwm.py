@@ -72,8 +72,8 @@ class Run:
 		if tiltPercent > 1: 
 			tiltPercent = 1
 
-		print("tiltPercent: ", tiltPercent)
-		self.client.update(tiltPercent) #send tiltPercent to client
+		print("tiltPercent: ", tiltPercent*100)
+		self.client.update(tiltPercent*100) #send tiltPercent to client
 
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
@@ -102,8 +102,8 @@ class Run:
 		height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		tiltPercent = height / self.maxActuatorHeight
-		print("tiltPercent: ", tiltPercent)
-		self.client.update(tiltPercent)
+		print("tiltPercent: ", tiltPercent*100)
+		self.client.update(tiltPercent*100)
 
 		##write to stats
 		f = file("stats.py")
@@ -126,7 +126,7 @@ class Run:
 		myLoc.calcPanHeight(x.distAO2, datetime.datetime.utcnow())
 		myLoc.printPanHeight(x.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
-		client.update(tiltPercent2)
+		client.update(tiltPercent2*100)
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
 
