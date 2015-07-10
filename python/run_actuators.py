@@ -15,9 +15,7 @@ print("client obj:", go.client)
 # go.connectToServer()
 
 #start reactor
-if x.realtime:
-	go.reactorLoop(False)
-else:
-	go.reactorLoop()
+
+go.reactorLoop(x.speed)
 
 # signal = signal.signal(signal.SIGINT, signal.SIG_DFL)

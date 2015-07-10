@@ -25,5 +25,6 @@ print("Printing testserver obj: ", testserver)
 
 testsuite = a.Run("127.0.0.1", "8080", 2, 1)
 testsuite.connectToServer()
-#TODO: create a test class in this file which has a server
+
+#make sure that the reactorLoop is after everything
 testsuite.reactorLoop()

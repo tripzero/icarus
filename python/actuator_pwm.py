@@ -26,8 +26,8 @@ class Run:
 	def connectToServer(self):
 		s.connectWS(self.client)
 
-	def reactorLoop(self, tiltDemoDay = True):
-		if not tiltDemoDay:	
+	def reactorLoop(self, speed_up_factor):
+		if speed_up_factor == 1:	
 			print("tilt Infinitely")			
 			loop = task.LoopingCall(self.tiltInfinitely)
 		else:
@@ -36,7 +36,7 @@ class Run:
 
 		#Initiate loop, cap the speed
 		if self.speedUpFactor > 25:
-			self.speedUpFactor = 20
+			self.speedUpFactor = 25
 		loop.start(1/self.speedUpFactor)
 
 		reactor.run()
@@ -47,7 +47,7 @@ class Run:
 		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
 		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
 
-		print("startDay: ", x.day, "; ", "current demoT: ",  (self.demoT.strftime('Date %m:%d:%y')) )
+		print("startDay: ", x.month, "/", x.day, "/", x.year, "  ",  (self.demoT.strftime('Current Demo Day: %m/%d/%y')) )
 		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", self.speedUpFactor)
 
 		#Add a minute
@@ -55,6 +55,7 @@ class Run:
 
 		#Initializing UTC time
 		print(self.demoT.strftime('%H:%M:%S UTC'))
+		print()
 
 		#Printing Local Time
 		prnt = self.demoT + datetime.timedelta(hours = x.offset)
@@ -79,10 +80,17 @@ class Run:
 
 
 
-	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
+	"""Tilt actuator a up/down in REAL-TIME (no speedup factor) to maintain a 45 degree angle with the sun, every second."""
 	def tiltInfinitely(self):
+
+		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
+		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
+		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
+		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", self.speedUpFactor)
+
 		#Initializing UTC time
 		d = datetime.datetime.utcnow()
+		print(d.strftime('Date: %m/%d/%y'))
 		print(d.strftime('%H:%M:%S UTC'))
 
 		#Printing Local Time
@@ -93,7 +101,8 @@ class Run:
 		#Calculate heights
 		height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
-		tiltPercent = effectiveActuatorHeight1 / self.maxActuatorHeight
+		tiltPercent = height / self.maxActuatorHeight
+		print("tiltPercent: ", tiltPercent)
 		self.client.update(tiltPercent)
 
 		##write to stats

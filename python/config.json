@@ -8,8 +8,7 @@
 		"year": 2015,
 		"month": 7,
 		"day": 9,
-		"speedUpRate" : 20,
-		"real_time_movement" : 0
+		"speedUpRate" : 25
 	},
 
 	"SimulationInfo" : {
