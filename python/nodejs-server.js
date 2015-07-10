@@ -4,11 +4,10 @@
 //https://github.com/websockets/ws
 
 //Documentation
-//using ws
+//using ws and express is a dependency downloaded via vvv; had to get past intel proxy for express download
 //http://expressjs.com/starter/installing.html
 
 var sys = require("sys");
-sys.puts("Hello World");
 
 /*var httpServ = require('http');
 var reactor = null;
@@ -16,38 +15,43 @@ reactor = httpServ.createServer(  ).listen( 8080 );
 reactor.listen(8080);
 */
 
+
+
+//////////////////////
+
+http = require('http');
+console.log("Hello World");
+app = http.createServer();
+
+//app.use(express.static(__dirname + '/public'));
+app.listen(8080);
+
 //example server use
 var WebSocketServer = require('ws').Server
-	wss = new WebSocketServer({port: 8080});
-//wss.listen({port: 8080});
-
+wss = new WebSocketServer({server: app});
 
 
 wss.on('open', function open() {
   console.log('connected');
-  ws.send(Date.now().toString(), {mask: true});
+  //ws.send(Date.now().toString(), {mask: true});
 });
 
-wss.on('connection', function connection(ws) {
+wss.on('connection', function connection(client) {
 	console.log('nodejs websocket is connected');
-    wss.on('message', function incoming(message) {
+    client.on('message', function incoming(message) {
         console.log('received: %s', message); //parse the json we are sending (python code; the tilt percent.)
     }); //console.debug?
+});
+
+
 wss.on('close', function() {
     console.log('stopping client interval');
     clearInterval(id);
-  });
-
-process.on( "SIGINT", function() {
-	console.log( "SIGINT: Quitting..." );
-	clearInterval( intervalId );
-	wss.close();
-	iotivity.OCStop();
-	process.exit( 0 );
-} );
-
-
 });
+
+sys.puts("End World");
+
+
 
 
 //server sending broadcast data 

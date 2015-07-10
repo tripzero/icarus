@@ -12,9 +12,12 @@ print("client obj:", go.client)
 #server = MyServer()
 
 #connect wsclient <--> autobahn myserver
-# go.connectToServer()
+go.connectToServer()
 
 #start reactor
+
+
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 go.reactorLoop(x.speed)
 
