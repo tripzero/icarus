@@ -1,6 +1,7 @@
 import json
 import actuator_pwm as a
 import solarserver
+from constants import constants as x
 
 if __name__ == '__main__':
     import sys
@@ -27,4 +28,4 @@ testsuite = a.Run("127.0.0.1", "8080", 2, 1)
 testsuite.connectToServer()
 
 #make sure that the reactorLoop is after everything
-testsuite.reactorLoop()
+testsuite.reactorLoop(x.speed)

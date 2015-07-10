@@ -3,6 +3,10 @@
 //https://github.com/sitegui/nodejs-websocket
 //https://github.com/websockets/ws
 
+//Documentation
+//using ws
+//http://expressjs.com/starter/installing.html
+
 var sys = require("sys");
 sys.puts("Hello World");
 
