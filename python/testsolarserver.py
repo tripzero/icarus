@@ -10,19 +10,20 @@ if __name__ == '__main__':
 def whenImConnected():
 	testclient.send(json.dumps("printing some data").encode('utf8'))
 
-testsuite = a.Run("127.0.0.1", "666", 2)
-#TODO: create a test class in this file which has a server
-testsuite.reactorLoop()
 
-testserver = solarserver.MyServer() #ERROR
-testclient = solarserver.WSClient("localhost", "80")
-testclient.connected = True
-whenImConnected()
-testclient.debug = False
+testserver = solarserver.MyServer() 
+#testclient = solarserver.WSClient("localhost", "8080")
+#testclient.connected = True
+#whenImConnected()
+#testclient.debug = False
 testserver.debug = False
 
 #self.server.sendMessage(msg, True)
 
-print("Printing testclient obj: ", testclient)
+#print("Printing testclient obj: ", testclient)
 print("Printing testserver obj: ", testserver)
 
+testsuite = a.Run("127.0.0.1", "8080", 2, 1)
+testsuite.connectToServer()
+#TODO: create a test class in this file which has a server
+testsuite.reactorLoop()

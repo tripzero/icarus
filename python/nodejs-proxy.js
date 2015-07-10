@@ -6,27 +6,43 @@
 var sys = require("sys");
 sys.puts("Hello World");
 
+/*var httpServ = require('http');
+var reactor = null;
+reactor = httpServ.createServer(  ).listen( 8080 );
+reactor.listen(8080);
+*/
+
 //example server use
 var WebSocketServer = require('ws').Server
-  , wss = new WebSocketServer({port: 8080});
+	wss = new WebSocketServer({port: 8080});
+//wss.listen({port: 8080});
 
 
-// dummy request processing
-var processRequest = function( req, res ) {
 
-    res.writeHead(200);
-    res.end("All glory to WebSockets!\n");
-};
-
-var httpServ = require('http');
-var reactor = null;
-reactor = httpServ.createServer( processRequest ).listen( 8080 );
+wss.on('open', function open() {
+  console.log('connected');
+  ws.send(Date.now().toString(), {mask: true});
+});
 
 wss.on('connection', function connection(ws) {
 	console.log('nodejs websocket is connected');
-    ws.on('message', function incoming(message) {
+    wss.on('message', function incoming(message) {
         console.log('received: %s', message); //parse the json we are sending (python code; the tilt percent.)
     }); //console.debug?
+wss.on('close', function() {
+    console.log('stopping client interval');
+    clearInterval(id);
+  });
+
+process.on( "SIGINT", function() {
+	console.log( "SIGINT: Quitting..." );
+	clearInterval( intervalId );
+	wss.close();
+	iotivity.OCStop();
+	process.exit( 0 );
+} );
+
+
 });
 
 

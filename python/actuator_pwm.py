@@ -28,13 +28,13 @@ class Run:
 
 	def reactorLoop(self, tiltDemoDay = True):
 		if not tiltDemoDay:	
-			print("tiltINFINITELY")			
+			print("tilt Infinitely")			
 			loop = task.LoopingCall(self.tiltInfinitely)
 		else:
-			print("tiltDemoDay")			
+			print("tilt DemoDay")			
 			loop = task.LoopingCall(self.tiltDemoDay)
 
-		#Initiate loop; cap the speed
+		#Initiate loop, cap the speed
 		if self.speedUpFactor > 25:
 			self.speedUpFactor = 20
 		loop.start(1/self.speedUpFactor)

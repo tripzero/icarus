@@ -30,44 +30,38 @@ class MyServer():
 	def run(self):
 		reactor.run()
 
-	# def send(self, msg):
-	# 	msg = bytes(msg) #tiltdata
-	# 	if self.server:
-	# 		print("sending:", msg)
-	# 		self.server.sendMessage(msg, True)
-
 	def unregister(self):
 		self.server = None
 
 class WSClient(WebSocketClientFactory):
 
-	server, connected = None, None
+	serverConnection, connected = None, None
 
 	def __init__(self, address, port):
 		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=False, origin='null')
 
 		self.protocol = WSClientProtocol
-		#connectWS(self) #defer for after we instantiate the server in actuator_pwm; make a connect func
+		#connectWS(self) #defer for after we instantiate the serverConnection in actuator_pwm; make a connect func
 
-	def register(self, server):
-		self.server = server
+	def register(self, serverConnection):
+		self.serverConnection = serverConnection
 		if self.connected:
 			self.connected()
 
-	def send(self, msg):
-		msg = bytes(msg) #tiltdata
-		if self.server:
+	def send(self, msg): #msg = tilt data
+		msg = bytes(msg)
+		if self.serverConnection:
 			print("sending:", msg)
-			self.server.sendMessage(msg, True)
+			self.serverConnection.sendMessage(msg, True)
 
-	def update(self, tiltInfo): #TODO
-		if not self.server:
+	def update(self, tiltInfo): 
+		if not self.serverConnection:
 			return
-			j = {"tiltPercentage" : tiltInfo}
-			self.send(json.dumps(j)) #json dump ; float error
+		j = {"tiltPercentage" : tiltInfo}
+		self.send(json.dumps(j)) #json dump ; float error
 
 	def unregister(self):
-		self.server = None
+		self.serverConnection = None
 
 class WSClientProtocol(WebSocketClientProtocol):
 	
