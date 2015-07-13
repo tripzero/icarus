@@ -24,15 +24,15 @@ Input location coordinates into the config.json. Input the distance from the piv
 *Note: hour_after_UTC is -7 for PST because Coordinated Universal Time is 7 hours ahead of Pacific Time. Verify timezone inputs carefully.*
 
 
-To see an overview of altitude/azimuth statistics of the input location as compared to that of Intel's Hillsboro, OR campus, run: ```$ python3 tracking.py```
+To see an overview of altitude/azimuth statistics of the input location as compared to that of Intel's Hillsboro, OR campus, run: ```$ python tracking.py```
 
 
 To simulate actuator heights throughout the day, input relevant SimulationInfo in the config.json and run:
-```$ python3 simulate_heights.py```
+```$ python simulate_heights.py```
 
 
 To demo the actuators infinitely, the "demoLocationInfo" must be accurate (don't worry about the timezone--it's based upon the datetime of the user's machine) in the config.json. Secondly, the config.json needs "distInfo" including "moveActuatorPerUnitOfSeconds" to specify how often the panels should move, as well as the two respective variables for the distance from actuator to origin (pivot point). Run: 
-``` $ python3 run_actuators.py```
+``` $ python run_actuators.py```
 
 
 In order to run the nodejs-server, download ws, a node.js websocket library. ```npm install -g ws```
