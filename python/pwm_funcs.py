@@ -1,7 +1,6 @@
 # Pulse width modification is used to move the actuator variably. 
 #Documentation:  http://iotdk.intel.com/docs/master/mraa/python/mraa.html#mraa.Pwm
 import mraa, time
-
 """An instance of this class can be moved a certain percentage"""
 class Actuator:
 	#isPWM is true iff Pwm module is utilized	
@@ -15,8 +14,9 @@ class Actuator:
 
 	def move(self, percent):
 		if self.isPWM:
+			#TODO: sun is below the horizon then sleep for x hours, confirm it's not just suboptimal due to roof
 			if percent < 0:
-				return
+				pass
 			x.enable(True)
 			x.period_us(700)
 			x.write(percent)

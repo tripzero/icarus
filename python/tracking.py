@@ -1,36 +1,43 @@
-import tracker_funcs as t
-import json, datetime
+from __future__ import print_function
+
+import json
+import datetime
 from pprint import pprint
-from pysolar.time import get_delta_t, tt_offset, get_leap_seconds
+import tracker_funcs as t
+from constants import constants as x
 
-#Initialize inputs
-with open('config.json') as dataFile: # print("config.json: ") # pprint(config)
-	config = json.load(dataFile)
+d = datetime.datetime.utcnow()
+def printTime():
+	print ("Local timezone (", x.tz, "):", (d + datetime.timedelta(hours = x.offset)).strftime('%H:%M:%S'), "/ ", d.strftime('%H:%M:%S UTC'))
 
-distAO1 = config["distInfo"]["distActuatorToOrigin"]
-distAO2 = config["distInfo"]["distPanningActuatorToOrigin"]
-secToWait = config["distInfo"]["moveActuatorPerUnitOfSeconds"]
-name = config["locationInfo"]["name"]
-lat = config["locationInfo"]["latitude"]
-lon = config["locationInfo"]["longitude"]
+#JF1 example location
+def calcExample():
+	print()
+	jf1 = t.Location("JF1", 45.541718, -122.960381, d, x.distAO1, x.distAO2)
+	t.printLocationInfo(jf1)
+	jf1.calcTiltHeight(x.distAO1, jf1.time)
+	jf1.calcPanHeight(x.distAO1, jf1.time)
+	jf1.printTiltHeight(x.distAO1, jf1.time)
+	jf1.printPanHeight(x.distAO2, jf1.time)
+	print()
 
-d = datetime.datetime.now()
-print("Current local time is ", d)
+myLoc = t.Location(x.name, x.lat, x.lon, d, x.distAO1, x.distAO2)
+effectiveActuatorHeight1 = myLoc.calcTiltHeight(x.distAO1, myLoc.time)
+effectiveActuatorHeight2 = myLoc.calcPanHeight(x.distAO2, myLoc.time)
 
-#JF1 Example
-print()
-jf1 = t.Location("JF1", 45.541718, -122.960381, d, distAO1, distAO2)
-t.printLocationInfo(jf1)
-jf1.calcTiltingHeight(distAO1, jf1.time)
-jf1.calcPanningHeight(distAO2, jf1.time)
-print()
+def printDemoHeights():
+	t.printLocationInfo(myLoc)
+	myLoc.printTiltHeight(x.distAO1, myLoc.time)
+	myLoc.printPanHeight(x.distAO2, myLoc.time)
 
-#Via config.json location
-print("Current location via config.json:")
-myLoc = t.Location(name, lat, lon, d, distAO1, distAO2)
-t.printLocationInfo(myLoc)
-inches = myLoc.calcTiltingHeight(distAO1, myLoc.time)
-effectiveActuatorHeight1 = inches
-
-#Calculate second actuator (panning)
-effectiveActuatorHeight2 = myLoc.calcPanningHeight(distAO2, myLoc.time)
+#write to stats
+#f = file("stats.py")
+f = open('stats.py', 'w')
+f.write("As of \r")
+f.write(str((datetime.datetime.now()).strftime('%H:%M:%S Local\r')))
+f.write(str((datetime.datetime.now() + (datetime.timedelta(hours = -x.offset))).strftime('%H:%M:%S UTC\r') ))
+f.write("Tilting actuator height: \r")
+f.write(str(effectiveActuatorHeight1))
+f.write("\nPanning actuator height: \r")
+f.write( str(effectiveActuatorHeight2))
+f.close()

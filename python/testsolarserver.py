@@ -1,14 +1,31 @@
-import solarserver
+import json
 import actuator_pwm as a
+import solarserver
+from constants import constants as x
+
+if __name__ == '__main__':
+    import sys
+    from twisted.python import log
+    # log.startLogging(sys.stdout)
+
+def whenImConnected():
+	testclient.send(json.dumps("printing some data").encode('utf8'))
 
 
-test = solarserver.SolarServer(3, a.tiltPercent, 700, True)
-test.move(tiltPercent)
-test.run() #TODO: difference between ^
+testserver = solarserver.MyServer() 
+#testclient = solarserver.WSClient("localhost", "8080")
+#testclient.connected = True
+#whenImConnected()
+#testclient.debug = False
+testserver.debug = False
 
-# import lightserver
-# from lights import OpenCvDriver, LightArray
+#self.server.sendMessage(msg, True)
 
-# leds = lightserver.LightArrayServer(10, OpenCvDriver((20,20,20,20)))
+#print("Printing testclient obj: ", testclient)
+print("Printing testserver obj: ", testserver)
 
-# leds.run()
+testsuite = a.Run("127.0.0.1", "8080", 2, 1)
+testsuite.connectToServer()
+
+#make sure that the reactorLoop is after everything
+testsuite.reactorLoop(x.speed)

@@ -1,23 +1,32 @@
 {
-	"locationInfo" : {
+	"demoLocationInfo" : {
 		"name" : "LinuxCon",
 		"latitude" : 37.3,
 		"longitude" : -121.99,
-
-		"Input demo start time vvv" : "",
+		"tz_name" : "PST",
+		"hours_after_UTC" : -7,
 		"year": 2015,
-		"month": 6,
-		"day": 16,
-		"hour": 6,
-		"minute": 48,
-		"second": 34,
-		"utc_time_diff" : 7
+		"month": 7,
+		"day": 9,
+		"speedUpRate" : 25
+	},
+
+	"SimulationInfo" : {
+		"name" : "Seattle Simulation",
+		"lat" : 47.610976,
+		"lon" : -122.333625,
+		"tz_name" : "PST",
+		"hours_after_UTC" : -7,
+		"year": 2015,
+		"month": 7,
+		"day": 9
 	},
 
 	"distInfo" : {
 		"distActuatorToOrigin" : 0.8125,
 		"distPanningActuatorToOrigin" : 1,
-		"moveActuatorPerUnitOfSeconds" : 1
+		"moveActuatorPerUnitOfSeconds" : 3,
+		"maxActuatorHeight" : 2
 	}
 
 }
