@@ -6,6 +6,8 @@
 //Documentation
 //using ws and express is a dependency downloaded via vvv; had to get past intel proxy for express download
 //http://expressjs.com/starter/installing.html
+//seems like we don't use express in the end; make sure to verify there are no other dependencies. 
+//TODO: FIGURE OUT WHICH VERSION OF NODEJS IS BEING UTILIZED.
 
 var sys = require("sys");
 
