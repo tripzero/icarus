@@ -1,7 +1,8 @@
 # **Maximum power point tracking (MPPT)**
 *Intel OSTC DollHouse Solar Panel Demo*
 
-The goal of this project is to intergrate Pysolar API with python code w/ mraa-bindings to move actuators thereby allowing for maximum solar panel efficency according to the sun's position. Pulse width modification (pwm) is used to move the actuator variably.
+##Description
+The goal of this project is to showcase Iotivity 0.9.1 as middleware platform--a means of communication with Project Icarus. This project intergrates Pysolar API w/ mraa-bindings to move actuators thereby allowing for maximum solar panel efficency according to the sun's position. A NodeJS websocket is utilized as an intermediate between Iotivity and Python-based Icarus. Pulse width modification (pwm) is used to move the actuator variably.
 
 
 
@@ -10,6 +11,7 @@ The goal of this project is to intergrate Pysolar API with python code w/ mraa-b
 
 [DollHouse replica](https://3dwarehouse.sketchup.com/model.html?id=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5 "Notice the angled roof's is suboptimal during midday, temporarily resulting in negative actuator heights!")
 
+##Installation
 Download Pysolar 0.6 as a dependency. ``` $ sudo python setup.py install ```
 
 Clone mraa and follow the install/build instructions; cmake-gui is useful during the build process to enable -DBUILDSWIGPYTHON, -BUILDSWIG. Next, confirm mraa.py and _mraa.so are in dist-packages.
@@ -23,7 +25,7 @@ Clone mraa and follow the install/build instructions; cmake-gui is useful during
 Input location coordinates into the config.json. Input the distance from the pivot point of the panel to the actuator--actuator1 is for tilting up/down and actuator2 is for panning.
 *Note: hour_after_UTC is -7 for PST because Coordinated Universal Time is 7 hours ahead of Pacific Time. Verify timezone inputs carefully.*
 
-
+##Usage
 To see an overview of altitude/azimuth statistics of the input location as compared to that of Intel's Hillsboro, OR campus, run: ```$ python tracking.py```
 
 
