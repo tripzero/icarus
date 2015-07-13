@@ -18,13 +18,14 @@ intervalId = setInterval( function() {
 iotivity.OCCreateResource(
 	handle,
 	"tiltPercentage",
-	//"oc.mi.def",
-	//"/light/1",
+	//"/solarpanel/state",
+	//"/solarpanel/tracker",
 	function( flag, request ) {
 		console.log( "OCCreateResource() handler: Entering" );
 		return iotivity.OCEntityHandlerResult.OC_EH_OK;
 	},
-	iotivity.OCResourceProperty.OC_DISCOVERABLE
+	iotivity.OCResourceProperty.OC_DISCOVERABLE |
+	iotivity.OCResourceProperty.OC_OBSERVABLE
 );
 
 process.on( "SIGINT", function() {

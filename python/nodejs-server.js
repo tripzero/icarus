@@ -1,6 +1,5 @@
 //ws: a node.js websocket implementation
 //wscat = command line util. either acts as server (--listen) or client (--connect)
-//https://github.com/sitegui/nodejs-websocket
 //https://github.com/websockets/ws
 
 //Documentation
