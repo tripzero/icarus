@@ -57,10 +57,10 @@ class Run:
 		print(self.demoT.strftime('%H:%M:%S UTC'))
 		print()
 
-		#Printing Local Time
+		#Printing Local Time, Preparing time to send over Websocket
 		prnt = self.demoT + datetime.timedelta(hours = x.offset)
 		print((prnt.strftime('%H:%M:%S')), x.tz)
-
+		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
 		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
 		#Calculate heights; VERIFY self.demoT IS ITERATING
@@ -73,7 +73,7 @@ class Run:
 			tiltPercent = 1
 
 		print("tiltPercent: ", tiltPercent*100)
-		self.client.update(tiltPercent*100) #send tiltPercent to client
+		self.client.update(tiltPercent*100, time_to_update) #send tiltPercent to client
 
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
@@ -93,8 +93,9 @@ class Run:
 		print(d.strftime('Date: %m/%d/%y'))
 		print(d.strftime('%H:%M:%S UTC'))
 
-		#Printing Local Time
+		#Printing Local Time; prepping time to send to websocket via update func
 		d = d + datetime.timedelta(hours = x.offset)
+		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
 		print((d.strftime('%H:%M:%S')), x.tz)
 		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
@@ -103,7 +104,7 @@ class Run:
 		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
 		tiltPercent = height / self.maxActuatorHeight
 		print("tiltPercent: ", tiltPercent*100)
-		self.client.update(tiltPercent*100)
+		self.client.update(tiltPercent*100, time_to_update)
 
 		##write to stats
 		f = file("stats.py")
@@ -126,7 +127,7 @@ class Run:
 		myLoc.calcPanHeight(x.distAO2, datetime.datetime.utcnow())
 		myLoc.printPanHeight(x.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
-		client.update(tiltPercent2*100)
+		client.update(tiltPercent2*100, "TO-DO")
 		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
 

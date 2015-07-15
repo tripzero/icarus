@@ -54,11 +54,13 @@ class WSClient(WebSocketClientFactory):
 			print("sending:", msg)
 			self.serverConnection.sendMessage(msg, True)
 
-	def update(self, tiltInfo): 
+	def update(self, tiltInfo, datetime): 
 		if not self.serverConnection:
 			return
 		j = {"tiltPercentage" : tiltInfo}
+		k = {"datetime" : datetime}
 		self.send(json.dumps(j)) #json dump ; float error
+		self.send(json.dumps(k))
 
 	def unregister(self):
 		self.serverConnection = None
