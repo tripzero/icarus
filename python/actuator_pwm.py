@@ -29,7 +29,7 @@ class Run:
 	def reactorLoop(self, speed_up_factor):
 		if speed_up_factor == 1:	
 			print("tilt Infinitely")			
-			loop = task.LoopingCall(self.tiltInfinitely)
+			loop = task.LoopingCall(self.tiltRealTime)
 		else:
 			print("tilt DemoDay")			
 			loop = task.LoopingCall(self.tiltDemoDay)
@@ -68,7 +68,7 @@ class Run:
 		myLoc.printTiltHeight(x.distAO1, self.demoT)
 		tiltPercent = height / self.maxActuatorHeight
 		if tiltPercent < 0:
-			tiltPercent = 0 #altitude is below zero; ignore
+			tiltPercent = 0 #altitude < 0 then ignore
 		if tiltPercent > 1: 
 			tiltPercent = 1
 
@@ -80,13 +80,14 @@ class Run:
 
 
 
-	"""Tilt actuator a up/down in REAL-TIME (no speedup factor) to maintain a 45 degree angle with the sun, every second."""
-	def tiltInfinitely(self):
+	"""Tilt actuator a up/down in REAL-TIME (speedup factor = 1) to maintain a 45 degree angle with the sun, every second."""
+	def tiltRealTime(self):
 
+		#Elapsed time prints
 		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
 		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
 		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
-		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", self.speedUpFactor)
+		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years", "has elapsed", "at a speedup of x", self.speedUpFactor)
 
 		#Initializing UTC time
 		d = datetime.datetime.utcnow()
@@ -95,7 +96,7 @@ class Run:
 
 		#Printing Local Time; prepping time to send to websocket via update func
 		d = d + datetime.timedelta(hours = x.offset)
-		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
+		time_to_update = str(d.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
 		print((d.strftime('%H:%M:%S')), x.tz)
 		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
