@@ -36,6 +36,7 @@ setup(
 
 
 	    			 ],
+	    scripts = ['python/run_actuators.py' , 'python/actuator_pwm.py'],
 	    #'python.config.json',
 	    license = 'Intel',
 

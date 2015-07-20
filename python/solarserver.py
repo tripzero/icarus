@@ -108,5 +108,3 @@ class MyServerProtocol(WebSocketServerProtocol):
 
 	def connectionLost(self, reason):
 		WebSocketServerProtocol.connectionLost(self, reason)
-	
-print("End of solarserver.py")
