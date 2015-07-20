@@ -25,7 +25,17 @@ setup(
 	    py_modules = ['python.pwm_funcs',
 	    			 'python.tracker_funcs',
 	    			 'python.ina219',
-	    			 'python.mppt'],
+	    			 'python.mppt', 
+	    			 'python.solarserver',
+	    			 'python.constants',
+	    			 'python.actuator_pwm',
+	    			 'pysolar.Pysolar.solar'
+	    			 #'autobahn.twisted.websocket'
+	    			 #'twisted.internet'
+	    			 #'twisted.python'
+
+
+	    			 ],
 	    #'python.config.json',
 	    license = 'Intel',
 
@@ -35,8 +45,6 @@ setup(
 			'Development Status :: 3 - Alpha',
 	    	'Intended Audience :: Developers',
 			'Programming Language :: Python :: 2',
-	        'Programming Language :: Python :: 2.7',
-	        'Programming Language :: Python :: 3.3',
-			'Programming Language :: Python :: 3.4',
+	        'Programming Language :: Python :: 2.7'
 		]
 	)
