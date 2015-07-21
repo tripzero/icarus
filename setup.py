@@ -1,8 +1,10 @@
 #someone always prefers setuptools over distutils.core
 import os, json
-#from distutils.core import setup #must import find_package
+
+#from distutils.core import setup #must import find_package, /usr/lib/python2.7/distutils/dist.py:267: UserWarning: Unknown distribution option: 'install_requires'
 
 from setuptools import setup, find_packages
+
 from os.path import join, dirname
 
 #######################################################3
@@ -20,23 +22,34 @@ setup(
 	    version = '1.0',
 	    date_created = '6/19/2015',
 	    long_description=read('README.txt'),
-	    packages = {'python'},
+	    packages = {'python/py_modules'},
 	    url = 'https://github.com/tripzero/mppt',
-	    py_modules = ['python.pwm_funcs',
-	    			 'python.tracker_funcs',
-	    			 'python.ina219',
-	    			 'python.mppt', 
-	    			 'python.solarserver',
-	    			 'python.constants',
-	    			 'python.actuator_pwm',
-	    			 'pysolar.Pysolar.solar'
+	    py_modules = [
+	    			 # 'python/pwm_funcs',
+	    			 # 'python/tracker_funcs',
+	    			 # 'python/ina219',
+	    			 # 'python/mppt', 
+	    			 # 'python/solarserver',
+	    			 # 'python/constants',
+	    			 # 'python/py_modules/actuator_pwm'
+	    			 
+
+	    			 # 'python.py_modules.pwm_funcs',
+	    			 # 'python.py_modules.tracker_funcs',
+	    			 # 'python.py_modules.ina219',
+	    			 # 'python.py_modules.mppt', 
+	    			 # 'python.py_modules.solarserver',
+	    			 # 'python.py_modules.constants',
+	    			 # 'python.py_modules.actuator_pwm',
+	    			 # 'pysolar.Pysolar.solar'
+
 	    			 #'autobahn.twisted.websocket'
 	    			 #'twisted.internet'
 	    			 #'twisted.python'
 
 
 	    			 ],
-	    scripts = ['python/run_actuators.py' , 'python/actuator_pwm.py'],
+	    scripts = ['python/run_actuators.py'],
 	    #'python.config.json',
 	    license = 'Intel',
 

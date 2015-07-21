@@ -1,7 +1,7 @@
 from actuator_pwm import Run
 from solarserver import MyServer
-import json 
 from constants import constants as x
+import json
 import signal
 
 #instantiate websocketclient

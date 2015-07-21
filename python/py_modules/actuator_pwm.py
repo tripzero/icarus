@@ -2,7 +2,7 @@ from __future__ import print_function
 from __future__ import division
 import mraa, datetime, sys
 from constants import constants as x
-from tracking import myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2
+from python.tracking import myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2
 import pwm_funcs as pwm
 from twisted.internet import task, reactor
 import solarserver as s

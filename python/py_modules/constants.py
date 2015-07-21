@@ -39,4 +39,5 @@ class Config:
 		self.sLon = config["SimulationInfo"]["lon"]
 		self.sZone = config["SimulationInfo"]["tz_name"]
 
+# constants = Config('../config_module/config.json')
 constants = Config('config.json')
