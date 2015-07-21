@@ -1,11 +1,16 @@
 from __future__ import print_function
 from __future__ import division
 import mraa, datetime, sys
-from constants import constants as x
-from python.tracking import myLoc, effectiveActuatorHeight1, effectiveActuatorHeight2
+import solarserver as s
+from constants import Config
+import tracker_funcs
 import pwm_funcs as pwm
 from twisted.internet import task, reactor
-import solarserver as s
+
+x = Config("/etc/icarus/config.json")
+myLoc = tracker_funcs.Location(x.name, x.lat, x.lon, datetime.datetime.utcnow(), x.distAO1, x.distAO2)
+effectiveActuatorHeight1 = myLoc.calcTiltHeight(x.distAO1, myLoc.time)
+effectiveActuatorHeight2 = myLoc.calcPanHeight(x.distAO2, myLoc.time)
 
 class Run:
 	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
@@ -108,14 +113,14 @@ class Run:
 		self.client.update(tiltPercent*100, time_to_update)
 
 		##write to stats
-		f = file("stats.py")
-		f = open('stats.py', 'w')
-		print("As of ", datetime.datetime.now().strftime('%H:%M:%S UTC'), file = f)
-		f.write("Tilting actuator height: \r")
-		f.write(str(effectiveActuatorHeight1))
-		f.write("\nPanning actuator height: ")
-		f.write( str(effectiveActuatorHeight2))
-		f.close()
+		# """f = file("stats.py")
+		# f = open('stats.py', 'w')
+		# print("As of ", datetime.datetime.now().strftime('%H:%M:%S UTC'), file = f)
+		# f.write("Tilting actuator height: \r")
+		# f.write(str(effectiveActuatorHeight1))
+		# f.write("\nPanning actuator height: ")
+		# f.write( str(effectiveActuatorHeight2))
+		# f.close()"""
 
 		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
 		# a.move(tiltPercent)
