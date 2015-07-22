@@ -23,8 +23,7 @@ class Location:
 
 	"""Reset time to real-time"""
 	def resetTime(self, time):
-		datetime.datetime.utcnow() #VERIFY UTC IS OK
-		#time = now
+		datetime.datetime.utcnow()
 
 	def coords(self):
 		return (self.lat, self.lon)
@@ -84,10 +83,7 @@ class Location:
 		x = sqrt(val)
 		print ("Effective actuator2 height: ", '{:.4f}'.format(x), " inches")
 
-	#def calcTime(self, lat, lon, time, sunset_calc = True):
-
-
-		"""Given an input time w/ the sun below the horizon, the function steps through time until the altitude is positive, thereby finding the sunset time."""
+	"""Given an input time w/ the sun below the horizon, the function steps through time until the altitude is positive, thereby finding the sunset time."""
 	def calcSunriseTime(self, lat, lon, time):
 		self.time = time
 		preT = self.alt(lat, lon, time)
@@ -144,8 +140,7 @@ class Location:
 			print_alt(self)	
 			self.printTiltHeight(self.o_a_dist1, self.time)
 			self.printPanHeight(self.o_a_dist2, self.time)
-			#print last time before sunset
-			self.resetTime(now)
+			self.resetTime(now) #print last time before sunset
 
 """Print all relevant location data"""
 def printLocationInfo(loc):

@@ -59,7 +59,7 @@ class WSClient(WebSocketClientFactory):
 			return
 		j = {"tiltPercentage" : tiltInfo}
 		k = {"datetime" : datetime}
-		self.send(json.dumps(j)) #json dump ; float error
+		self.send(json.dumps(j))
 		self.send(json.dumps(k))
 
 	def unregister(self):
@@ -95,9 +95,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 	def onConnect(self, request): 
 		print("Client connecting: {}".format(request.peer))
 
-	def onMessage(self, payload, isBinary): #TODO: how to write this func
-		#self.sendMessage(payload, isBinary) #echo back a message
-		
+	def onMessage(self, payload, isBinary):
 		print "got a message: ", len(payload)
 		if not isBinary:
 			return

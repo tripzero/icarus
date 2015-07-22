@@ -5,7 +5,7 @@ class Config:
 	"""The Config class is a template for intializing/importing constants."""
 	def __init__(self, file_str):
 		
-		with open(file_str) as dataFile: # print("config.json: ") # pprint(config)
+		with open(file_str) as dataFile:
 			config = json.load(dataFile)
 	
 		self.file_str = file_str

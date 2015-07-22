@@ -22,16 +22,13 @@ class Run:
 		self.client = s.WSClient(client_ip, client_port)
 		self.client.debug = True
 		self.minActuatorHeight = 0 
-		
 		self.maxActuatorHeight = x.maxActuatorHeight
 		self.speedUpFactor = x.speed
 		if speedUpFactor < 1:
 			self.speedUpFactor = 1
-		
 		tiltPercent = 0
 		self.stop = False
 		self.demoT = datetime.datetime(x.year, x.month, x.day, 0, 0, 0)
-		#self.startDay = datetime.datetime(x.year, x.month, x.day, 0, 0, 0)
 
 	def connectToServer(self):
 		s.connectWS(self.client)
@@ -131,7 +128,7 @@ class Run:
 		# a.move(tiltPercent)
 
 	
-	"""Actuator b is for panning the panel horizonally according to the azimuth. Currently NOT implemented in the DollHouse."""
+	"""Actuator b is for panning the panel horizonally according to the azimuth. Currently NOT in the DollHouse."""
 	def moveB():
 		print(datetime.datetime.utcnow().strftime('%H:%M:%S PST'))
 		print(" |", "\n", "V")
@@ -139,6 +136,6 @@ class Run:
 		myLoc.printPanHeight(x.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
 		client.update(tiltPercent2*100, "TO-DO")
-		# b = pwm.Actuator(3, panPercent, 700, True) #comment these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
+		# b = pwm.Actuator(3, panPercent, 700, True) #UNCOMMENT these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
 		# b.move(panPercent)
 
