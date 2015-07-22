@@ -7,22 +7,27 @@ import tracker_funcs
 import pwm_funcs as pwm
 from twisted.internet import task, reactor
 
-x = Config("/etc/icarus/config.json")
+from run_actuators import x
+
+
+#TODO: make these part of the run class
 myLoc = tracker_funcs.Location(x.name, x.lat, x.lon, datetime.datetime.utcnow(), x.distAO1, x.distAO2)
 effectiveActuatorHeight1 = myLoc.calcTiltHeight(x.distAO1, myLoc.time)
 effectiveActuatorHeight2 = myLoc.calcPanHeight(x.distAO2, myLoc.time)
 
 class Run:
 	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
-	def __init__(self, client_ip, client_port, maxActuatorHeight, speedUpFactor):
+	def __init__(self, client_ip, client_port):
 
 		self.client = s.WSClient(client_ip, client_port)
 		self.client.debug = True
 		self.minActuatorHeight = 0 
-		self.maxActuatorHeight = maxActuatorHeight
-		self.speedUpFactor = speedUpFactor
+		
+		self.maxActuatorHeight = x.maxActuatorHeight
+		self.speedUpFactor = x.speed
 		if speedUpFactor < 1:
 			self.speedUpFactor = 1
+		
 		tiltPercent = 0
 		self.stop = False
 		self.demoT = datetime.datetime(x.year, x.month, x.day, 0, 0, 0)
