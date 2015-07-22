@@ -54,11 +54,13 @@ class WSClient(WebSocketClientFactory):
 			print("sending:", msg)
 			self.serverConnection.sendMessage(msg, True)
 
-	def update(self, tiltInfo): 
+	def update(self, tiltInfo, datetime): 
 		if not self.serverConnection:
 			return
 		j = {"tiltPercentage" : tiltInfo}
-		self.send(json.dumps(j)) #json dump ; float error
+		k = {"datetime" : datetime}
+		self.send(json.dumps(j))
+		self.send(json.dumps(k))
 
 	def unregister(self):
 		self.serverConnection = None
@@ -93,9 +95,7 @@ class MyServerProtocol(WebSocketServerProtocol):
 	def onConnect(self, request): 
 		print("Client connecting: {}".format(request.peer))
 
-	def onMessage(self, payload, isBinary): #TODO: how to write this func
-		#self.sendMessage(payload, isBinary) #echo back a message
-		
+	def onMessage(self, payload, isBinary):
 		print "got a message: ", len(payload)
 		if not isBinary:
 			return
@@ -106,5 +106,3 @@ class MyServerProtocol(WebSocketServerProtocol):
 
 	def connectionLost(self, reason):
 		WebSocketServerProtocol.connectionLost(self, reason)
-	
-print("End of solarserver.py")

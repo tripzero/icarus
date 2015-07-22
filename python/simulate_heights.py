@@ -1,7 +1,6 @@
 from __future__ import print_function
 import tracker_funcs as t
 import json, datetime, copy
-import Pysolar.constants as c
 from constants import constants as x
 
 #Local time

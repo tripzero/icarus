@@ -2,7 +2,6 @@ from __future__ import print_function
 
 import json
 import datetime
-from pprint import pprint
 import tracker_funcs as t
 from constants import constants as x
 
