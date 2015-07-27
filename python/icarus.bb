@@ -9,7 +9,7 @@ PR = "r1"
 SRC_URI = "git://github.com/tripzero/icarus; protocol=https; branch=master; name=icarus"
 SRCREV_icarus = "4e533bc5cb84dffa944c96dbce20ded6a8961dec"
 
-S = "${WORKDIR}/icarus-${PV}"
+S = "${WORKDIR}/git"
 
 inherit distutils
 
@@ -20,10 +20,8 @@ RDEPENDS_${PN} = "python-datetime \
                   python-distutils \
                   python-twisted \
                   autobahn \
-                  pysolar \
-
-"
-
+                  pysolar \"
+                  
 RDEPENDS_${PN}_class-native = ""
 
 BBCLASSEXTEND = "native nativesdk"

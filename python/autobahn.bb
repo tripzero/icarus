@@ -9,22 +9,19 @@ PR = "r1"
 SRC_URI = "git://github.com/tavendo/AutobahnPython; protocol=https; branch=master; name=autobahn"
 SRCREV_autobahn = "3bcbc00382a9d601fe4565216d4e7dc737d5f65e"
 
-S = "${WORKDIR}/autobahn-${PV}"
+S = "${WORKDIR}/git"
 
 inherit distutils
 
 SRC_URI[md5sum] = "3bcbc00382a9d601fe4565216d4e7dc737d5f65e"
 SRC_URI[sha256sum] = "https://github.com/tavendo/AutobahnPython"
 
-# install what is needed for numpy.test()
 RDEPENDS_${PN} = "python \
                   python-datetime \
                   python-distutils \
                   python-twisted \
                   six \
-                  txaio \
-
-"
+                  txaio \"
 
 RDEPENDS_${PN}_class-native = ""
 

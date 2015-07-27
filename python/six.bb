@@ -17,7 +17,6 @@ SRC_URI[md5sum] = "476881ef4012262dfc8adc645ee786c4"
 SRC_URI[sha256sum] = "https://pypi.python.org/packages/source/s/six/six-1.9.0.tar.gz#md5=476881ef4012262dfc8adc645ee786c4"
 
 RDEPENDS_${PN} = "python \
-
 "
 
 RDEPENDS_${PN}_class-native = ""

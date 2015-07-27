@@ -6,7 +6,8 @@ PR = "r1"
 
 SRC_URI = "https://github.com/tavendo/txaios; protocol=https; branch=master; name=txaio"
 SRCREV_txaio = "abb9af9c02055467a553ee05607b8ae00c1b5cdb"
-S = "${WORKDIR}/txaio-${PV}"
+
+S = "${WORKDIR}/git"
 
 inherit distutils
 
@@ -17,7 +18,6 @@ RDEPENDS_${PN} = "python \
                   python-distutils \
                   six \
                   twisted \
-
 "
 
 RDEPENDS_${PN}_class-native = ""
