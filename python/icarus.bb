@@ -1,13 +1,13 @@
 SUMMARY = "A solar-tracking python2.7 package"
 AUTHOR = "Kevron Rees / Ryan Kapur"
 SECTION = "devel/python"
-LICENSE = "GPL v3"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=f87832d854acbade6e9f5c601c8b30b1"
+LICENSE = "GPL &|() v3"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=25905bd825ed9118dc55c3ba118f6c29"
 PR = "r1"
 
 
-SRC_URI = "git://github.com/tripzero/icarus; protocol=https; branch=master; name=icarus"
-SRCREV_icarus = "4e533bc5cb84dffa944c96dbce20ded6a8961dec"
+SRC_URI = "git://github.com/tripzero/icarus;protocol=https;branch=master;name=icarus"
+SRCREV_icarus = "6f742ac796a2d61c911d970a37701b03965c7156"
 
 S = "${WORKDIR}/git"
 
@@ -18,9 +18,8 @@ SRC_URI[sha256sum] = "https://github.com/tripzero/icarus"
 
 RDEPENDS_${PN} = "python-datetime \
                   python-distutils \
-                  python-twisted \
                   autobahn \
-                  pysolar \"
+                  pysolar"
                   
 RDEPENDS_${PN}_class-native = ""
 
