@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=92f7efe35161605ba200554c84c2b04b"
 PR = "r1"
 
 SRC_URI = "git://github.com/tavendo/AutobahnPython;protocol=https;branch=master;name=autobahn"
-SRCREV_autobahn = "4ae22413ee9ba8f6692e80e171b68777"
+SRCREV_autobahn = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
@@ -19,6 +19,7 @@ RDEPENDS_${PN} = "python \
                   python-distutils \
                   python-twisted \
                   six \
+                  txaio \ 
 "
 
 RDEPENDS_${PN}_class-native = ""

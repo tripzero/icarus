@@ -9,7 +9,7 @@ PR = "r1"
 SRC_URI = "git://github.com/tripzero/icarus;protocol=https;branch=master;name=icarus"
 SRCREV_icarus = "6f742ac796a2d61c911d970a37701b03965c7156"
 
-S = "${WORKDIR}/git"
+S = "${WORKDIR}/git-${PV}"
 
 inherit distutils
 
@@ -19,6 +19,7 @@ SRC_URI[sha256sum] = "https://github.com/tripzero/icarus"
 RDEPENDS_${PN} = "python-datetime \
                   python-distutils \
                   autobahn \
+                  six \
                   pysolar"
                   
 RDEPENDS_${PN}_class-native = ""
