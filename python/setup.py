@@ -29,7 +29,7 @@ setup(
 	    name = 'icarus',
 	    author= 'Kevron Rees, Ryan Kapur',
 	    author_email = 'kevron.rees@intel.com',
-	    version = '1.0',
+	    version = '1.1',
 	    date_created = '6/19/2015',
 	    long_description=read('../README.txt'),
 	    packages = ['icarus'],

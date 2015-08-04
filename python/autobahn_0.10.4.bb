@@ -18,6 +18,7 @@ RDEPENDS_${PN} = "python \
                   python-datetime \
                   python-distutils \
                   python-twisted \
+                  python-twisted-web \
                   six \
                   txaio \ 
 "

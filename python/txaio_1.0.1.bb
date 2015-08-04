@@ -19,7 +19,6 @@ SRC_URI[txaio.sha256sum] = "c2ddbaf003c68f64ba1c79c70395555d6ccaee512213405447c0
 RDEPENDS_${PN} = "python \
                   python-distutils \
                   six \
-                  python-twisted \
 "
 
 RDEPENDS_${PN}_class-native = ""
