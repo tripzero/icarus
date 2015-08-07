@@ -1,11 +1,11 @@
 from threading import Thread
 import sys
-from twisted.internet import gireactor #default reactor uses a min size of 5, max size of 10.
-try: 
-	gireactor.install()
-except:
-	print("Gireactor already installed")
-	pass
+# from twisted.internet import gireactor
+# try: 
+# 	gireactor.install()
+# except:
+# 	print("Gireactor already installed")
+# 	pass
 
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS, WebSocketClientProtocol, WebSocketClientFactory, connectWS
 from twisted.internet import reactor
