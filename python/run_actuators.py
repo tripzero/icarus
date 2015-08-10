@@ -10,18 +10,18 @@ import time
 
 #import config.json
 try:
-	x = Config("config.json")
+	configFile = Config("config.json")
 
 except IOError:
 	try:
 		home = expanduser("~")
-		x = Config(str(home) + "/.config/icarus/config.json")
+		configFile = Config(str(home) + "/.config/icarus/config.json")
 	
 	except IOError:
-			x = Config("/etc/icarus/config.json")
+			configFile = Config("/etc/icarus/config.json")
 
 #instantiate websocketclient
-go = Run("127.0.0.1", "8080", x.maxActuatorHeight, x.speed)
+go = Run("127.0.0.1", "8080", configFile)
 print("client obj:", go.client)
 
 #instantiate testserver + factory/listening
@@ -32,4 +32,4 @@ go.connectToServer()
 
 #start reactor
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-go.reactorLoop(x.speed)
+go.reactorLoop(configFile.speed)
