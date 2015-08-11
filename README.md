@@ -41,21 +41,5 @@ In order to run the nodejs-server, download ws, a node.js websocket library. ```
 *source: https://github.com/websockets/ws*
 
 
-*tree directory reference:
-├── arduino
-├── build
-├── dist
-├── MANIFEST
-├── mppt.egg-info
-├── mraa
-├── nodejs
-├── pysolar
-├── python
-├── README.md
-├── README.txt
-├── setup.py
-└── ws
-*
-
 *mraa documentation: http://iotdk.intel.com/docs/master/mraa/python/*
 
