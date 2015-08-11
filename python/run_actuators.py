@@ -10,10 +10,20 @@ import time
 import site, os
 
 #import the config file
-# lst = site.getsitepackages()
-
+lst = site.getsitepackages()
 print (os.path.isfile("config.json"))
-configFile = Config("config.json") 
+lst.append('/etc/icarus/config.json')
+configFile = None
+
+for f in lst:
+	f = f + "/icarus/config.json"
+	if os.path.isfile(f):
+		configFile = Config(f)
+	else:
+		print("has no config in {0}".format(f))
+
+if not configFile:
+	print("config file import failz0rs")
 
 # except IOError:	
 	# try:
