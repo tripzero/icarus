@@ -1,11 +1,5 @@
 from threading import Thread
 import sys
-# from twisted.internet import gireactor
-# try: 
-# 	gireactor.install()
-# except:
-# 	print("Gireactor already installed")
-# 	pass
 
 from autobahn.twisted.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS, WebSocketClientProtocol, WebSocketClientFactory, connectWS
 from twisted.internet import reactor
@@ -13,11 +7,9 @@ from twisted.python import log
 import struct
 import json
 
-#class soley for testing
 class MyServer():
 	
 	def __init__(self):
-		#super().__init__(self, pin, percent, period, isPWM)
 		log.startLogging(sys.stdout)
 
 		#Running the server
@@ -41,7 +33,6 @@ class WSClient(WebSocketClientFactory):
 		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=False, origin='null')
 
 		self.protocol = WSClientProtocol
-		#connectWS(self) #defer for after we instantiate the serverConnection in actuator_pwm; make a connect func
 
 	def register(self, serverConnection):
 		self.serverConnection = serverConnection

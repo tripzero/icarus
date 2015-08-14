@@ -35,6 +35,7 @@ setup(
 	    packages = ['icarus'],
 	    url = 'https://github.com/tripzero/mppt',
 	    scripts = ['run_actuators.py'],
+	    package_data={'': ['config.json']},
 	    #'python.config.json',
 	    license = 'Intel',
 

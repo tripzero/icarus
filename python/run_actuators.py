@@ -7,21 +7,37 @@ from os.path import expanduser
 import json
 import signal
 import time
+import site, os
 
-#import config.json
-try:
-	x = Config("config.json")
+#import the config file
+lst = site.getsitepackages()
+print (os.path.isfile("config.json"))
+lst.append('/etc/icarus/config.json')
+configFile = None
 
-except IOError:
-	try:
-		home = expanduser("~")
-		x = Config(str(home) + "/.config/icarus/config.json")
-	
-	except IOError:
-			x = Config("/etc/icarus/config.json")
+for f in lst:
+	f = f + "/icarus/config.json"
+	if os.path.isfile(f):
+		configFile = Config(f)
+	else:
+		print("has no config in {0}".format(f))
+
+if not configFile:
+	print("config file import failz0rs")
+
+# except IOError:	
+	# try:
+	# 	configFile = Config(str(lst[0]))
+
+	# except IOError:
+	# 	try:
+	# 		configFile = Config(str(home) + "/.config/icarus/config.json")
+		
+	# 	except IOError:
+	# 			configFile = Config("/etc/icarus/config.json")
 
 #instantiate websocketclient
-go = Run("127.0.0.1", "8080", x.maxActuatorHeight, x.speed)
+go = Run("127.0.0.1", "8080", configFile)
 print("client obj:", go.client)
 
 #instantiate testserver + factory/listening
@@ -32,4 +48,4 @@ go.connectToServer()
 
 #start reactor
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-go.reactorLoop(x.speed)
+go.reactorLoop(configFile.speed)

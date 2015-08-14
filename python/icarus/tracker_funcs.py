@@ -23,7 +23,7 @@ class Location:
 
 	"""Reset time to real-time"""
 	def resetTime(self, time):
-		datetime.datetime.utcnow() #VERIFY UTC IS OK
+		datetime.datetime.utcnow()
 		#time = now
 
 	def coords(self):
@@ -100,10 +100,6 @@ class Location:
 
 	"""Given an input time w/ the sun below the horizon, the function steps back in time til the altitude is positive, thereby finding the sunset time."""
 	def calcSunsetTime(self, lat, lon, time):
-		# y = int(datetime.datetime.now().strftime('%y'))
-		# m = int(datetime.datetime.now().strftime('%m'))
-		# d = int(datetime.datetime.now().strftime('%d'))
-		# t = datetime.datetime(year, month, day + 1, 11, 43, 00)
 		self.time = time
 		postT = self.alt(lat, lon, self.time)
 		while postT < 0:
@@ -135,7 +131,6 @@ class Location:
 					self.printTiltHeight(self.o_a_dist1, self.time)
 					self.printPanHeight(self.o_a_dist2, self.time)
 					print ("\n")
-
 				i = i + 1
 				self.incrementTime(self.time, 1)
 

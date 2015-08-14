@@ -7,28 +7,33 @@ import tracker_funcs
 import pwm_funcs as pwm
 from twisted.internet import task, reactor
 
-from run_actuators import x
-
 
 #TODO: make these part of the run class
-myLoc = tracker_funcs.Location(x.name, x.lat, x.lon, datetime.datetime.utcnow(), x.distAO1, x.distAO2)
-effectiveActuatorHeight1 = myLoc.calcTiltHeight(x.distAO1, myLoc.time)
-effectiveActuatorHeight2 = myLoc.calcPanHeight(x.distAO2, myLoc.time)
+# myLoc = tracker_funcs.Location(config.name, config.lat, config.lon, datetime.datetime.utcnow(), config.distAO1, config.distAO2)
+# effectiveActuatorHeight1 = myLoc.calcTiltHeight(config.distAO1, myLoc.time)
+# effectiveActuatorHeight2 = myLoc.calcPanHeight(config.distAO2, myLoc.time)
 
 class Run:
 	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
-	def __init__(self, client_ip, client_port):
+	def __init__(self, client_ip, client_port, config):
 
 		self.client = s.WSClient(client_ip, client_port)
 		self.client.debug = True
+		self.config = config
 		self.minActuatorHeight = 0 
-		self.maxActuatorHeight = x.maxActuatorHeight
-		self.speedUpFactor = x.speed
-		if speedUpFactor < 1:
+		self.maxActuatorHeight = config.maxActuatorHeight
+		self.speedUpFactor = config.speed
+		if self.speedUpFactor < 1:
 			self.speedUpFactor = 1
 		tiltPercent = 0
 		self.stop = False
-		self.demoT = datetime.datetime(x.year, x.month, x.day, 0, 0, 0)
+		self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
+		
+		#recently added
+		self.myLoc = tracker_funcs.Location(config.name, config.lat, config.lon,
+			datetime.datetime.utcnow(), config.distAO1, config.distAO2)
+		self.effectiveActuatorHeight1 = self.myLoc.calcTiltHeight(config.distAO1, self.myLoc.time)
+		self.effectiveActuatorHeight2 = self.myLoc.calcPanHeight(config.distAO2, self.myLoc.time)
 
 	def connectToServer(self):
 		s.connectWS(self.client)
@@ -50,11 +55,11 @@ class Run:
 		
 	"""Actuator a, tilting the panel up and down to maintain a 45 degree angle with the sun, is called every second by the reactor timer."""
 	def tiltDemoDay(self):
-		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
-		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
-		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
+		daysPast = ( (int(self.demoT.strftime('%d'))) - self.config.day)
+		monthsPast = ( (int(self.demoT.strftime('%m'))) - self.config.month)
+		yearsPast = ( (int(self.demoT.strftime('%Y'))) - self.config.year)
 
-		print("startDay: ", x.month, "/", x.day, "/", x.year, "  ",  (self.demoT.strftime('Current Demo Day: %m/%d/%y')) )
+		print("startDay: ", self.config.month, "/", self.config.day, "/", self.config.year, "  ",  (self.demoT.strftime('Current Demo Day: %m/%d/%y')) )
 		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years ", "has elapsed", "at a speedup of x", self.speedUpFactor)
 
 		#Add a minute
@@ -65,14 +70,14 @@ class Run:
 		print()
 
 		#Printing Local Time, Preparing time to send over Websocket
-		prnt = self.demoT + datetime.timedelta(hours = x.offset)
-		print((prnt.strftime('%H:%M:%S')), x.tz)
-		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
+		prnt = self.demoT + datetime.timedelta(hours = self.config.offset)
+		print((prnt.strftime('%H:%M:%S')), self.config.tz)
+		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(self.config.tz) 
 		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
 		#Calculate heights; VERIFY self.demoT IS ITERATING
-		height = myLoc.calcTiltHeight(x.distAO1, self.demoT)
-		myLoc.printTiltHeight(x.distAO1, self.demoT)
+		height = self.myLoc.calcTiltHeight(self.config.distAO1, self.demoT)
+		self.myLoc.printTiltHeight(self.config.distAO1, self.demoT)
 		tiltPercent = height / self.maxActuatorHeight
 		if tiltPercent < 0:
 			tiltPercent = 0 #altitude < 0 then ignore
@@ -91,9 +96,9 @@ class Run:
 	def tiltRealTime(self):
 
 		#Elapsed time prints
-		daysPast = ( (int(self.demoT.strftime('%d'))) - x.day)
-		monthsPast = ( (int(self.demoT.strftime('%m'))) - x.month)
-		yearsPast = ( (int(self.demoT.strftime('%Y'))) - x.year)
+		daysPast = ( (int(self.demoT.strftime('%d'))) - self.config.day)
+		monthsPast = ( (int(self.demoT.strftime('%m'))) - self.config.month)
+		yearsPast = ( (int(self.demoT.strftime('%Y'))) - self.config.year)
 		print(daysPast, " days ,", monthsPast, "months ,", yearsPast, "years", "has elapsed", "at a speedup of x", self.speedUpFactor)
 
 		#Initializing UTC time
@@ -102,14 +107,14 @@ class Run:
 		print(d.strftime('%H:%M:%S UTC'))
 
 		#Printing Local Time; prepping time to send to websocket via update func
-		d = d + datetime.timedelta(hours = x.offset)
-		time_to_update = str(d.strftime('%m/%d/%y | %H:%M:%S ')) + str(x.tz) 
-		print((d.strftime('%H:%M:%S')), x.tz)
+		d = d + datetime.timedelta(hours = self.config.offset)
+		time_to_update = str(d.strftime('%m/%d/%y | %H:%M:%S ')) + str(self.config.tz) 
+		print((d.strftime('%H:%M:%S')), config.tz)
 		print("\n", "|", "\n", "|", "\n", "V", "\n")
 
 		#Calculate heights
-		height = myLoc.calcTiltHeight(x.distAO1, datetime.datetime.utcnow())
-		myLoc.printTiltHeight(x.distAO1, datetime.datetime.utcnow())
+		height = myLoc.calcTiltHeight(self.config.distAO1, datetime.datetime.utcnow())
+		myLoc.printTiltHeight(self.config.distAO1, datetime.datetime.utcnow())
 		tiltPercent = height / self.maxActuatorHeight
 		print("tiltPercent: ", tiltPercent*100)
 		self.client.update(tiltPercent*100, time_to_update)
@@ -132,8 +137,8 @@ class Run:
 	def moveB():
 		print(datetime.datetime.utcnow().strftime('%H:%M:%S PST'))
 		print(" |", "\n", "V")
-		myLoc.calcPanHeight(x.distAO2, datetime.datetime.utcnow())
-		myLoc.printPanHeight(x.distAO2, datetime.datetime.utcnow())
+		myLoc.calcPanHeight(config.distAO2, datetime.datetime.utcnow())
+		myLoc.printPanHeight(config.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
 		client.update(tiltPercent2*100, "TO-DO")
 		# b = pwm.Actuator(3, panPercent, 700, True) #UNCOMMENT these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
