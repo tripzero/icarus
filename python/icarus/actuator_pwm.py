@@ -1,17 +1,12 @@
+#!/usr/bin/env python
+
 from __future__ import print_function
 from __future__ import division
-import mraa, datetime, sys
+import datetime, sys
 import solarserver as s
 from constants import Config
 import tracker_funcs
-import pwm_funcs as pwm
 from twisted.internet import task, reactor
-
-
-#TODO: make these part of the run class
-# myLoc = tracker_funcs.Location(config.name, config.lat, config.lon, datetime.datetime.utcnow(), config.distAO1, config.distAO2)
-# effectiveActuatorHeight1 = myLoc.calcTiltHeight(config.distAO1, myLoc.time)
-# effectiveActuatorHeight2 = myLoc.calcPanHeight(config.distAO2, myLoc.time)
 
 class Run:
 	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
@@ -87,10 +82,6 @@ class Run:
 		print("tiltPercent: ", tiltPercent*100)
 		self.client.update(tiltPercent*100, time_to_update) #send tiltPercent to client
 
-		# a = pwm.Actuator(3, tiltPercent, 700, True) #UNCOMMENT these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
-		# a.move(tiltPercent)
-
-
 
 	"""Tilt actuator a up/down in REAL-TIME (speedup factor = 1) to maintain a 45 degree angle with the sun, every second."""
 	def tiltRealTime(self):
@@ -118,20 +109,6 @@ class Run:
 		tiltPercent = height / self.maxActuatorHeight
 		print("tiltPercent: ", tiltPercent*100)
 		self.client.update(tiltPercent*100, time_to_update)
-
-		##write to stats
-		# """f = file("stats.py")
-		# f = open('stats.py', 'w')
-		# print("As of ", datetime.datetime.now().strftime('%H:%M:%S UTC'), file = f)
-		# f.write("Tilting actuator height: \r")
-		# f.write(str(effectiveActuatorHeight1))
-		# f.write("\nPanning actuator height: ")
-		# f.write( str(effectiveActuatorHeight2))
-		# f.close()"""
-
-		# a = pwm.Actuator(3, tiltPercent, 700, True) #comment these two lines out to see realtime values on your machine (ubuntu isn't mraa compatible)
-		# a.move(tiltPercent)
-
 	
 	"""Actuator b is for panning the panel horizonally according to the azimuth. Currently NOT in the DollHouse."""
 	def moveB():
@@ -141,6 +118,5 @@ class Run:
 		myLoc.printPanHeight(config.distAO2, datetime.datetime.utcnow())
 		panPercent = effectiveActuatorHeight2 / maxActuatorHeight
 		client.update(tiltPercent2*100, "TO-DO")
-		# b = pwm.Actuator(3, panPercent, 700, True) #UNCOMMENT these two lines out if you want to see height change over time on your machine (ubuntu pc is not mraa compatible)
-		# b.move(panPercent)
+
 

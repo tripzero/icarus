@@ -7,30 +7,14 @@ from twisted.python import log
 import struct
 import json
 
-class MyServer():
-	
-	def __init__(self):
-		log.startLogging(sys.stdout)
-
-		#Running the server
-		factory = WebSocketServerFactory("ws://localhost:8080")
-		factory.protocol = MyServerProtocol
-		
-		listenWS(factory) #Listen for incoming WebSocket connections from clients.
-		log.startLogging(sys.stdout)
-
-	def run(self):
-		reactor.run()
-
-	def unregister(self):
-		self.server = None
-
 class WSClient(WebSocketClientFactory):
 
 	serverConnection, connected = None, None
+	debug = True
+	debugCodePaths = True
 
 	def __init__(self, address, port):
-		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=False, origin='null')
+		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=self.debug, origin='null', protocols=["echo-protocol"])
 
 		self.protocol = WSClientProtocol
 
@@ -43,25 +27,32 @@ class WSClient(WebSocketClientFactory):
 		msg = bytes(msg)
 		if self.serverConnection:
 			print("sending:", msg)
-			self.serverConnection.sendMessage(msg, True)
+			self.serverConnection.sendMessage(msg, isBinary=False)
 
 	def update(self, tiltInfo, datetime): 
 		if not self.serverConnection:
 			return
-		j = {"tiltPercentage" : tiltInfo}
-		k = {"datetime" : datetime}
-		self.send(json.dumps(j))
-		self.send(json.dumps(k))
+
+		data = { "tiltPercentage":  tiltInfo,	"datetime" : datetime }
+		payload = { "Event" : "update", "Type" : "solar", "att" : data }
+
+		msg = json.dumps(payload)
+
+		if self.debug:
+			print("sending: " + msg)
+
+		self.send(msg)
 
 	def unregister(self):
 		self.serverConnection = None
 
 class WSClientProtocol(WebSocketClientProtocol):
 	
-	debug, debugCodePaths = False, False
+	debug, debugCodePaths = True, True
 
 	def onConnect(self, response):
 		print("Server connected: {0}".format(response.peer))
+		return "echo-protocol"
 
 	def onOpen(self):
 		print("WebSocket connection open.")
@@ -76,24 +67,3 @@ class WSClientProtocol(WebSocketClientProtocol):
 	def onClose(self, wasClean, code, reason):
 		print("WebSocket connection closed: {0}".format(reason))
 		self.factory.unregister()
-
-class MyServerProtocol(WebSocketServerProtocol):
-	debug, debugCodePaths = True, True
-
-	def onOpen(self):
-		print("Ready to connect")
-
-	def onConnect(self, request): 
-		print("Client connecting: {}".format(request.peer))
-
-	def onMessage(self, payload, isBinary):
-		print "got a message: ", len(payload)
-		if not isBinary:
-			return
-
-	def clear(self):
-		print('clearing')
-		MyServerProtocol.lightServer.clear()
-
-	def connectionLost(self, reason):
-		WebSocketServerProtocol.connectionLost(self, reason)
