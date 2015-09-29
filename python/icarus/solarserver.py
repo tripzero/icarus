@@ -12,6 +12,7 @@ class WSClient(WebSocketClientFactory):
 	serverConnection, connected = None, None
 	debug = True
 	debugCodePaths = True
+	oldTilt = 0
 
 	def __init__(self, address, port):
 		WebSocketClientFactory.__init__(self, "ws://{0}:{1}".format(address, port), debug=self.debug, origin='null', protocols=["echo-protocol"])
@@ -33,15 +34,22 @@ class WSClient(WebSocketClientFactory):
 		if not self.serverConnection:
 			return
 
-		data = { "tiltPercentage":  tiltInfo,	"datetime" : datetime }
+		#tiltInfo = tiltInfo / 100
+		#tiltInfo = (0.05 + 0.1 / tiltInfo) - 0.5
+		if self.oldTilt == 0:
+			self.oldTilt = tiltInfo
+
+		data = { "tiltPercentage":  round(tiltInfo, 2),	"datetime" : datetime }
 		payload = { "Event" : "update", "Type" : "solar", "att" : data }
 
 		msg = json.dumps(payload)
 
-		if self.debug:
-			print("sending: " + msg)
+		print ("delta: ", abs(self.oldTilt - tiltInfo))
 
-		self.send(msg)
+		if abs(self.oldTilt - tiltInfo) > 10:
+			self.oldTilt = tiltInfo
+			self.send(msg)
+		
 
 	def unregister(self):
 		self.serverConnection = None

@@ -30,7 +30,10 @@ if not configFile:
 	# 			configFile = Config("/etc/icarus/config.json")
 
 #instantiate websocketclient
-go = Run("127.0.0.1", "8080", configFile)
+
+
+
+go = Run("aspx.jf.intel.com", 8080, configFile)
 print("client obj:", go.client)
 
 #connect wsclient <--> autobahn myserver
