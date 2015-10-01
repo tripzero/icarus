@@ -22,7 +22,8 @@ class Run:
 			self.speedUpFactor = 1
 		tiltPercent = 0
 		self.stop = False
-		self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
+		if config.simulationMode:
+			self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
 		
 		#recently added
 		self.myLoc = tracker_funcs.Location(config.name, config.lat, config.lon,
@@ -33,8 +34,8 @@ class Run:
 	def connectToServer(self):
 		s.connectWS(self.client)
 
-	def reactorLoop(self, speed_up_factor):
-		if speed_up_factor == 1:	
+	def reactorLoop(self):
+		if not self.config.simulationMode:	
 			print("tilt Infinitely")			
 			loop = task.LoopingCall(self.tiltRealTime)
 		else:

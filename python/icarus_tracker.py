@@ -12,33 +12,15 @@ from pkg_resources import resource_filename
 print __name__
 f = resource_filename("icarus", "config.json")
 
-configFile = Config(f)
+configFile = Config(f, "Hillsboro")
 
 if not configFile:
 	print("config file import failz0rs")
 	quit()
 
-# except IOError:	
-	# try:
-	# 	configFile = Config(str(lst[0]))
-
-	# except IOError:
-	# 	try:
-	# 		configFile = Config(str(home) + "/.config/icarus/config.json")
-		
-	# 	except IOError:
-	# 			configFile = Config("/etc/icarus/config.json")
-
-#instantiate websocketclient
-
-
-
-go = Run("aspx.jf.intel.com", 8080, configFile)
-print("client obj:", go.client)
-
-#connect wsclient <--> autobahn myserver
+go = Run(configFile.serverAddress, configFile.serverPort, configFile)
 go.connectToServer()
 
 #start reactor
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-go.reactorLoop(configFile.speed)
+go.reactorLoop()

@@ -1,4 +1,7 @@
 {
+	"server" : {"address" : "aspx.jf.intel.com", "port" : 8080 },
+  "simulationMode" : true,
+
 	"demoLocationInfo" : {
 		"name" : "LinuxCon",
 		"latitude" : 37.3,
@@ -13,10 +16,22 @@
 
 	"SimulationInfo" : {
 		"name" : "Seattle Simulation",
-		"lat" : 47.610976,
-		"lon" : -122.333625,
+		"latitude" : 47.610976,
+		"longitude" : -122.333625,
 		"tz_name" : "PST",
 		"hours_after_UTC" : -7,
+		"year": 2015,
+		"month": 7,
+		"day": 9
+	},
+
+	"Hillsboro" : {
+		"name" : "Hillsboro Oregon",
+		"latitude" : 45.542384,
+		"longitude" : -122.961576,
+		"tz_name" : "PST",
+		"hours_after_UTC" : -7,
+		"speedUpRate" : 10,
 		"year": 2015,
 		"month": 7,
 		"day": 9
