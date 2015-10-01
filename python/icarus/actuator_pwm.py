@@ -7,6 +7,7 @@ import solarserver as s
 from constants import Config
 import tracker_funcs
 from twisted.internet import task, reactor
+import pytz
 
 class Run:
 	"""The Run class connects client<-->server, sends tilt data, and moves the actuators."""
@@ -22,9 +23,11 @@ class Run:
 			self.speedUpFactor = 1
 		tiltPercent = 0
 		self.stop = False
+		self.tz = pytz.timezone(self.config.tz)
 
 		if config.simulationMode:
 			self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
+			print("Localized: Demo time: ", self.demoT)
 		
 		#recently added
 		self.myLoc = tracker_funcs.Location(config.name, config.lat, config.lon,
@@ -63,23 +66,25 @@ class Run:
 		self.demoT = self.demoT + datetime.timedelta(minutes = 1)
 
 		#Initializing UTC time
-		print(self.demoT.strftime('%H:%M:%S UTC'))
+		print(self.demoT)
 		print()
 
 		#Printing Local Time, Preparing time to send over Websocket
-		time_to_update = str(self.demoT.strftime('%H:%M:%S ')) + str(self.config.tz) 
+		time_to_update = str(self.tz.localize(self.demoT).strftime('%H:%M:%S ')) + str(self.config.tz) 
 		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
-		#Calculate heights; VERIFY self.demoT IS ITERATING
 		height = self.myLoc.calcTiltHeight(self.config.distAO1, self.demoT)
-		self.myLoc.printTiltHeight(self.config.distAO1, self.demoT)
+		
 		tiltPercent = height / self.maxActuatorHeight
 		if tiltPercent < 0:
 			tiltPercent = 0 #altitude < 0 then ignore
 		if tiltPercent > 1: 
 			tiltPercent = 1
 
-		print("tiltPercent: ", tiltPercent*100)
+		tiltPercent = 100 - (tiltPercent * 100)
+
+		print("tiltPercent: ", tiltPercent)
+		print("time: ", time_to_update)
 		self.client.update(tiltPercent*100, time_to_update) #send tiltPercent to client
 
 

@@ -46,8 +46,9 @@ class WSClient(WebSocketClientFactory):
 
 		print ("delta: ", abs(self.oldTilt - tiltInfo))
 
-		if abs(self.oldTilt - tiltInfo) > 10:
+		if abs(self.oldTilt - tiltInfo) > 1.235:
 			self.oldTilt = tiltInfo
+			print("sending...")
 			self.send(msg)
 		
 

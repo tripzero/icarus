@@ -3,6 +3,7 @@ from __future__ import print_function
 import datetime, json, copy
 from Pysolar.solar import GetAltitude, GetAzimuth
 from math import tan, cos, radians, sqrt
+import pytz
 
 now = datetime.datetime.now()
 """A location has time-specific altitude, azimuth values (degrees) as per Pysolar. Using origin to actuator distances, the various effective actuator heights can be calculated."""
@@ -29,9 +30,8 @@ class Location:
 	def coords(self):
 		return (self.lat, self.lon)
 
-	def alt(self, lat, lon, time):
+	def alt(self, lat, lon, time):		
 		a = GetAltitude(lat, lon, time)
-		#if a < 0: do something	
 		return a
 
 	def azimuth(self, lat, lon, time):
@@ -63,10 +63,7 @@ class Location:
 		return x
 
 	def printTiltHeight(self, o_a_dist1, input_time):
-		val = 69 - self.alt(self.lat, self.lon, input_time)
-		left = tan(radians(val))
-		right = o_a_dist1
-		x = left * right
+		x = self.calcTiltHeight(o_a_dist1, input_time)
 		print ("Effective actuator1 height: ", '{:.4f}'.format(x), " inches")
 
 	"""Return the value calculated via the law of consines, the # of inches the second actuator must be move in order to pan the solar panel according to the azimuth."""
@@ -79,9 +76,7 @@ class Location:
 		return x
 	
 	def printPanHeight(self, o_a_dist2, input_time):	
-		azimuth = self.azimuth(self.lat, self.lon, input_time)
-		val = 2*o_a_dist2*o_a_dist2 - (2*o_a_dist2*o_a_dist2*cos((radians(azimuth))))
-		x = sqrt(val)
+		x = self.calcPanHeight(o_a_dist2, input_time)
 		print ("Effective actuator2 height: ", '{:.4f}'.format(x), " inches")
 
 	#def calcTime(self, lat, lon, time, sunset_calc = True):

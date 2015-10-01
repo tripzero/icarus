@@ -22,7 +22,7 @@ class Config:
 		self.lon = config[location]["longitude"]
 		self.rate = config[location]["speedUpRate"]
 
-		self.offset = config[location]["hours_after_UTC"]
+		self.offset = 0 #config[location]["hours_after_UTC"]
 		self.tz = config[location]["tz_name"]
 		self.speed = config[location]["speedUpRate"]
 		self.year = config[location]["year"]
