@@ -1,3 +1,3 @@
 include *.py
-include *.json
+include icarus/*.json
 
