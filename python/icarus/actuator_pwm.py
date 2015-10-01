@@ -22,6 +22,7 @@ class Run:
 			self.speedUpFactor = 1
 		tiltPercent = 0
 		self.stop = False
+		
 		if config.simulationMode:
 			self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
 		
@@ -66,9 +67,7 @@ class Run:
 		print()
 
 		#Printing Local Time, Preparing time to send over Websocket
-		prnt = self.demoT + datetime.timedelta(hours = self.config.offset)
-		print((prnt.strftime('%H:%M:%S')), self.config.tz)
-		time_to_update = str(prnt.strftime('%m/%d/%y | %H:%M:%S ')) + str(self.config.tz) 
+		time_to_update = str(prnt.strftime('%H:%M:%S ')) + str(self.config.tz) 
 		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
 		#Calculate heights; VERIFY self.demoT IS ITERATING
