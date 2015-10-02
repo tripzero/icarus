@@ -26,7 +26,7 @@ class Run:
 		self.tz = pytz.timezone(self.config.tz)
 
 		if config.simulationMode:
-			self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0)
+			self.demoT = datetime.datetime(config.year, config.month, config.day, 0, 0, 0, tzinfo=pytz.utc)
 			print("Localized: Demo time: ", self.demoT)
 		
 		#recently added
@@ -70,7 +70,7 @@ class Run:
 		print()
 
 		#Printing Local Time, Preparing time to send over Websocket
-		time_to_update = str(self.tz.localize(self.demoT).strftime('%H:%M:%S ')) + str(self.config.tz) 
+		time_to_update = str(self.demoT.astimezone(self.tz).strftime('%H:%M:%S ')) + str(self.config.tz) 
 		print("\r\n", "|", "\n", "|", "\n", "V", "\n\r")
 
 		height = self.myLoc.calcTiltHeight(self.config.distAO1, self.demoT)
@@ -85,7 +85,7 @@ class Run:
 
 		print("tiltPercent: ", tiltPercent)
 		print("time: ", time_to_update)
-		self.client.update(tiltPercent*100, time_to_update) #send tiltPercent to client
+		self.client.update(tiltPercent, time_to_update) #send tiltPercent to client
 
 
 	"""Tilt actuator a up/down in REAL-TIME (speedup factor = 1) to maintain a 45 degree angle with the sun, every second."""
