@@ -39,7 +39,9 @@ class WSClient(WebSocketClientFactory):
 		if self.oldTilt == 0:
 			self.oldTilt = tiltInfo
 
-		data = { "tiltPercentage":  round(tiltInfo, 2),	"datetime" : datetime }
+		lcd1 = datetime.ljust(16, ' ')
+		lcd2 = (str(round(tiltInfo,0))+"%").ljust(16, ' ')
+		data = { "tiltPercentage":  round(tiltInfo, 2), "lcd1" : lcd1, "lcd2" : lcd2}
 		payload = { "Event" : "update", "Type" : "solar", "att" : data }
 
 		msg = json.dumps(payload)

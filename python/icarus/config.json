@@ -1,6 +1,6 @@
 {
 	"server" : {"address" : "aspx.jf.intel.com", "port" : 8080 },
-  "simulationMode" : true,
+	"simulationMode" : true,
 
 	"demoLocationInfo" : {
 		"name" : "LinuxCon",
@@ -30,6 +30,17 @@
 		"latitude" : 45.542384,
 		"longitude" : -122.961576,
 		"tz_name" : "US/Pacific",
+		"speedUpRate" : 1,
+		"year": 2015,
+		"month": 10,
+		"day": 1
+	},
+
+	"Dublin" : {
+		"name" : "Dublin Ireland",
+		"latitude" : 53.3846671,
+		"longitude" : -6.2246534,
+		"tz_name" : "Europe/Dublin",
 		"speedUpRate" : 1,
 		"year": 2015,
 		"month": 10,
