@@ -77,9 +77,9 @@ class Run:
 		
 		tiltPercent = height / self.maxActuatorHeight
 		if tiltPercent < 0:
-			tiltPercent = 0 #altitude < 0 then ignore
+			tiltPercent = 1 #altitude < 0 then ignore
 		if tiltPercent > 1: 
-			tiltPercent = 1
+			tiltPercent = 0
 
 		tiltPercent = 100 - (tiltPercent * 100)
 
