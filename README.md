@@ -1,20 +1,14 @@
-# **Maximum power point tracking (MPPT)**
-*Intel OSTC DollHouse Solar Panel Demo*
+# **Icarus**
+*Solar panel solar tracking controller*
 
 ##Description
-The goal of this project is to showcase Iotivity 0.9.1 as middleware platform--a means of communication with Project Icarus. This project intergrates Pysolar API w/ mraa-bindings to move actuators thereby allowing for maximum solar panel efficency according to the sun's position. A NodeJS websocket is utilized as an intermediate between Iotivity and Python-based Icarus. Pulse width modification (pwm) is used to move the actuator variably.
-
-
-
-
-![logo](https://3dwarehouse.sketchup.com/warehouse/getpubliccontent?contentId=42765559-b10a-465e-8913-c5a3e1ef3e53 "Doll House")
-
-[DollHouse replica](https://3dwarehouse.sketchup.com/model.html?id=ue44d2411-e37e-4c25-9bee-8ae0a81f8ab5 "Notice the angled roof's is suboptimal during midday, temporarily resulting in negative actuator heights!")
+Icarus is solar panel controller software that can be used with a hardware controller (such as the Intel Edison or any device with PWM) and a linear actuator to move a solar panel so that it tracks the sun.  It is estimated that a solar panel can get 40-55% better output throughout the day if it positions itself towards the sun at optimal angles.  At the moment, the controller supports one axis giving an estimated 15% efficiency.  There is code to do two axis, but this is untested.  Icarus uses pysolar for acurate computation of solar azimuth and altitude throughout the day.
 
 ##Installation
 Download Pysolar 0.6 as a dependency. ``` $ sudo python setup.py install ```
 
 Clone mraa and follow the install/build instructions; cmake-gui is useful during the build process to enable -DBUILDSWIGPYTHON, -BUILDSWIG. Next, confirm mraa.py and _mraa.so are in dist-packages.
+
 ```$ git clone https://github.com/intel-iot-devkit/mraa.git```
 
 
