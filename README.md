@@ -29,7 +29,7 @@ Python dependencies can be installed using `pip install <python_module>`
 
 
 To install Icarus tracker please run the command:
- ``` $ sudo python setup.py install ```
+ ``` $ sudo python python/setup.py install ```
  
 ### Native library dependencies
 * [MRAA](http://iotdk.intel.com/docs/master/mraa/) version 0.10.1
